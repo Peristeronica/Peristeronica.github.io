@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ページのタイトル</title>
   <link rel="stylesheet" href="./style.css" />
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=G-491005926"
+  ></script>
+  <script>
+    window.dataLayer=window.dataLayer || [];
+    function gtag() { 
+    dataLayer.push(arguments); 
+    }
+    gtag("js", new Date());
+    gtag("config", "G-491005926");
+  </script>
 </head>
 
 <body>
@@ -12,26 +24,27 @@
   <h2>人を</h2>
   <p id="love">愛せるか。</p>
   <a href="https://pbs.twimg.com/media/GieC4y9aQAARbX1.jpg">エッチな画像</a>
-  <br>
-  <a href="./another.html">サブページへ</a>
-  <h2>好きなもの</h2>
-  <ul>
-    <li>生きとし生ける</li>
-    <li>全ての鳩へ</li>
-    <li>ぽっぽ～</li>
-    <ol>
-      <li>ぽっぽ～(長三度上ハモリ)</li>
-      <li>ぽっぽ～(完全五度上ハモリ)</li>
-      <li>ぽっぽ～(短三度上ハモリ)</li>
-      ↑不協和音のため、死。
-    </ol>
-  </ul>
-
-  <div>誰かが</div>
-  <div class="target">お前を</div>
-  <div>見ている</div>
-  <br>
-  <table>
+  <br><br>
+  <div class="container">
+    <p class="item">
+    <a href="./another.html">サブページへ</a>
+    </p>
+    <p class="item">
+    <h2>好きなもの</h2>
+    <ul>
+      <li>生きとし生ける</li>
+      <li>全ての鳩へ</li>
+      <li>ぽっぽ～</li>
+      <ol>
+        <li>ぽっぽ～(長三度上ハモリ)</li>
+        <li>ぽっぽ～(完全五度上ハモリ)</li>
+        <li>ぽっぽ～(短三度上ハモリ)</li>
+        ↑不協和音のため、死。
+      </ol>
+    </ul>
+    </p>
+  </div>
+    <table>
     <thead>
       <th>ある</th>
       <th>ない</th>
@@ -48,7 +61,12 @@
     </tbody>
   </table>
   答え：道徳
+  <div>誰かが</div>
+  <div class="target">お前を</div>
+  <div>見ている</div>
+
 
   <img src="./icon.png" alt="横たわる猫の画像(にゃーん)" />
+  にゃーんだったね
 </body>
 </html>
