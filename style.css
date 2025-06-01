@@ -2,6 +2,20 @@ html{
     font-size: 16px;
 }
 
+body {
+    font-family: sans-serif;
+    margin: 0; /* bodyのデフォルトマージンをリセット */
+    min-height: 100vh; /* ビューポートの高さの100%を最低高さとする */
+    background-color: #f0f2f5;
+    color: #333;
+
+    /* bodyをFlexboxコンテナにし、コンテンツを縦方向に並べる */
+    display: flex;
+    flex-direction: column; 
+    align-items: center; /* 子要素を水平方向の中央揃え */
+    /* justify-contentは不要。個別のマージンで調整する */
+}
+
 h1{
     color: red;
     font-size: 3rem;
@@ -52,12 +66,27 @@ p{
     background-color: #fff;
     border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+
+    /* #video-containerを垂直方向の中央に押しやる */
+    /* autoマージンが利用可能なスペースを均等に分配 */
+    margin-top: auto;    /* 上方向の利用可能なスペースを全て使う */
+    margin-bottom: auto; /* 下方向の利用可能なスペースを全て使う */
+
+    /* 内部の動画コンテンツを中央に配置（iframeなど） */
     display: flex;
-    text-align: center;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
-    overflow: hidden; /* 埋め込みコンテンツがはみ出さないように */
+}
+
+/* 下に追加する画像（icon.png）のスタイル */
+#bottom-image {
+    margin-top: 30px;
+    margin-bottom: 50px;
+    /* 画像を左寄せにする */
+    margin-left: 50px; /* 左端からの余白を設定（任意） */
+    margin-right: auto; /* 右側のスペースを全て使うことで左寄せ */
+    display: block; /* マージンを適用するためにブロック要素にする */
 }
 
 /* ニコニコ動画の埋め込みはiframeになるため、iframeにスタイルを適用する場合 */
