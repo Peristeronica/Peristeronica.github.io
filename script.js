@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
         '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm44638372/script?w=720&h=480"></script><noscript><a href="https://www.nicovideo.jp/watch/sm44638372">ウザ通信</a></noscript>',
         '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm45010022/script?w=720&h=480"></script><noscript><a href="https://www.nicovideo.jp/watch/sm45010022">宇沢よ、来い</a></noscript>',
         '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm43446602/script?w=720&h=480"></script><noscript><a href="https://www.nicovideo.jp/watch/sm43446602">宇沢レイサ</a></noscript>',
-        '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm44686799/script?w=720&h=480"></script><noscript><a href="https://www.nicovideo.jp/watch/sm44686799">カリカリ</a></noscript>',
         '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm44389790/script?w=720&h=480"></script><noscript><a href="https://www.nicovideo.jp/watch/sm44389790">柚鳥ナツ合作 ～伝説が……はじまる。～</a></noscript>',
         '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm44389790/script?w=720&h=480&from=83"></script><noscript><a href="https://www.nicovideo.jp/watch/sm44389790?from=83">柚鳥ナツ合作 ～伝説が……はじまる。～</a></noscript>',
         '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm43154439/script?w=720&h=480"></script><noscript><a href="https://www.nicovideo.jp/watch/sm43154439">かりふぉっふぉ</a></noscript>',
