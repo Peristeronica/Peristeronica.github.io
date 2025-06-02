@@ -12,7 +12,7 @@ body {
     /* bodyをFlexboxコンテナにし、コンテンツを縦方向に並べる */
     display: flex;
     flex-direction: column; 
-    align-items: center; /* 子要素を水平方向の中央揃え */
+    /*align-items: center;  子要素を水平方向の中央揃え */
     /* justify-contentは不要。個別のマージンで調整する */
 }
 
@@ -60,6 +60,10 @@ p{
     font-size: 15rem;
 }
 
+.rurutala{
+    margin: 0 auto;
+}
+
 #video-container {
     width: 720px; /* 埋め込み動画の幅に合わせる */
     height: 480px; /* 埋め込み動画の高さに合わせる */
@@ -67,16 +71,6 @@ p{
     border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-
-    /* #video-containerを垂直方向の中央に押しやる */
-    /* autoマージンが利用可能なスペースを均等に分配 */
-    margin-top: auto;    /* 上方向の利用可能なスペースを全て使う */
-    margin-bottom: auto; /* 下方向の利用可能なスペースを全て使う */
-
-    /* 内部の動画コンテンツを中央に配置（iframeなど） */
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 /* 下に追加する画像（icon.png）のスタイル */
