@@ -1,0 +1,36 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  position: relative;
+}
+
+/* 左：NEWS & BIOGRAPHY */
+header > ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+/* 中央：ロゴ画像 */
+header > a {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* 右：SNSリンク群 */
+.sns_body ul {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.sns_body img {
+  vertical-align: middle;
+}
