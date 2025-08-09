@@ -54,7 +54,9 @@ document.addEventListener('DOMContentLoaded', () => {
         '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm42496640/script?w=720&h=480"></script><noscript><a href="https://www.nicovideo.jp/watch/sm42496640">あっはは…確かに昨日『暑くて歪みそう』とは言ったけどさ～…</a></noscript>',
         '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm45068051/script?w=720&h=480"></script><noscript><a href="https://www.nicovideo.jp/watch/sm45068051">七味唐辛子を販売する宇沢レイサ</a></noscript>',
         '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm44138206/script?w=720&h=480"></script><noscript><a href="https://www.nicovideo.jp/watch/sm44138206">まっカなリフォ</a></noscript>',
-        '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm44722580/script?w=720&h=480"></script><noscript><a href="https://www.nicovideo.jp/watch/sm44722580">セミナーガーデン</a></noscript>'
+        '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm44722580/script?w=720&h=480"></script><noscript><a href="https://www.nicovideo.jp/watch/sm44722580">セミナーガーデン</a></noscript>',
+        '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm43725305/script?w=720&h=480"></script><noscript><a href="https://www.nicovideo.jp/watch/sm43725305">スーパー山田オゴッテイ 草の国ヤマーダガーデン</a></noscript>',
+        '<script type="application/javascript" src="https://embed.nicovideo.jp/watch/sm44925584/script?w=720&h=480"></script><noscript><a href="https://www.nicovideo.jp/watch/sm44925584">お金無くなっちゃったーっ！！！</a></noscript>'
     ];
 
     const videoContainer = document.getElementById('video-container');
