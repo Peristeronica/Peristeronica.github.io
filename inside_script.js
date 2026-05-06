@@ -1,62 +1,89 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const videoContainer = document.getElementById('video-container');
 
-  const RSS_URL = `https://www.nicovideo.jp/user/61445526/mylist/78998106?rss=2.0`
-  const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
+  const MYLIST_ID = '78998106';
+  const PAGE_SIZE = 100;
 
-  try {
-    const response = await fetch(API_URL);
+  async function fetchMylistPage(page) {
+    const url =
+      `https://nvapi.nicovideo.jp/v2/mylists/${MYLIST_ID}` +
+      `?page=${page}` +
+      `&pageSize=${PAGE_SIZE}` +
+      `&sortKey=addedAt` +
+      `&sortOrder=desc`;
+
+    const response = await fetch(url, {
+      headers: {
+        'X-Frontend-ID': '6',
+        'X-Frontend-Version': '0'
+      }
+    });
 
     if (!response.ok) {
-      throw new Error('マイリストの取得に失敗しました');
+      throw new Error(`マイリスト取得失敗: ${response.status}`);
     }
 
-    const data = await response.json();
+    return await response.json();
+  }
 
-    if (!data.items || data.items.length === 0) {
-      throw new Error('マイリスト内に動画が見つかりませんでした');
+  async function fetchAllVideoIdsFromMylist() {
+    const firstData = await fetchMylistPage(1);
+
+    const mylist = firstData.data?.mylist;
+    if (!mylist) {
+      throw new Error('マイリスト情報を取得できませんでした');
     }
 
-    // RSSの各itemから動画IDを取り出す
-    const videoIds = data.items
+    const totalCount = mylist.totalItemCount ?? 0;
+    const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
+    let items = mylist.items ?? [];
+
+    for (let page = 2; page <= totalPages; page++) {
+      const data = await fetchMylistPage(page);
+      const pageItems = data.data?.mylist?.items ?? [];
+      items = items.concat(pageItems);
+    }
+
+    const videoIds = items
       .map(item => {
-        const match = item.link.match(/watch\/(sm\d+)/);
-        return match ? match[1] : null;
+        return (
+          item.video?.id ||
+          item.watchId ||
+          item.id ||
+          item.videoId ||
+          null
+        );
       })
-      .filter(id => id !== null);
+      .filter(id => typeof id === 'string' && id.match(/^sm\d+$/));
+
+    return [...new Set(videoIds)];
+  }
+
+  function displayNicovideoEmbed(videoId) {
+    videoContainer.innerHTML = '';
+
+    const script = document.createElement('script');
+    script.type = 'application/javascript';
+    script.src = `https://embed.nicovideo.jp/watch/${videoId}/script?w=720&h=480`;
+
+    videoContainer.appendChild(script);
+  }
+
+  try {
+    const videoIds = await fetchAllVideoIdsFromMylist();
 
     if (videoIds.length === 0) {
-      throw new Error('動画IDを取得できませんでした');
+      throw new Error('マイリスト内の動画IDを取得できませんでした');
     }
 
-    // ランダムに1つ選ぶ
     const randomIndex = Math.floor(Math.random() * videoIds.length);
     const selectedVideoId = videoIds[randomIndex];
 
-    // ニコニコ埋め込みscriptを作成
-    const script = document.createElement('script');
-    script.type = 'application/javascript';
-    script.src = `https://embed.nicovideo.jp/watch/${selectedVideoId}/script?w=720&h=480`;
-
-    // 表示エリアを空にしてから追加
-    videoContainer.innerHTML = '';
-    videoContainer.appendChild(script);
-
-    // noscript相当のリンクも一応追加
-    const link = document.createElement('a');
-    link.href = `https://www.nicovideo.jp/watch/${selectedVideoId}`;
-    link.textContent = '動画ページを開く';
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-
-    const fallback = document.createElement('noscript');
-    fallback.appendChild(link);
-
-    videoContainer.appendChild(fallback);
+    displayNicovideoEmbed(selectedVideoId);
 
   } catch (error) {
     console.error(error);
-
     videoContainer.textContent = '動画の読み込みに失敗しました。';
   }
 });
