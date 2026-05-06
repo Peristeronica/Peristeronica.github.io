@@ -1,11 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const videoContainer = document.getElementById('video-container');
 
-  const MYLIST_ID = '78998106';
-
-  // 直接 nicovideo.jp を fetch すると CORS で失敗する可能性が高いので、
-  // ここでは RSS を JSON 化するプロキシを挟む例にしています。
-  const RSS_URL = `https://www.nicovideo.jp/mylist/${MYLIST_ID}?rss=2.0`;
+  const RSS_URL = `https://www.nicovideo.jp/user/61445526/mylist/78998106?rss=2.0`
   const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
 
   try {
