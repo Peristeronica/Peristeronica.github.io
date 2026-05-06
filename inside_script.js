@@ -1,86 +1,52 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const videoContainer = document.getElementById('video-container');
 
-  const MYLIST_ID = '78998106';
-  const PAGE_SIZE = 100;
-
-  async function fetchMylistPage(page) {
-    const url =
-      `https://nvapi.nicovideo.jp/v2/mylists/${MYLIST_ID}` +
-      `?page=${page}` +
-      `&pageSize=${PAGE_SIZE}` +
-      `&sortKey=addedAt` +
-      `&sortOrder=desc`;
-
-    const response = await fetch(url, {
-      headers: {
-        'X-Frontend-ID': '6',
-        'X-Frontend-Version': '0'
-      }
+  async function fetchVideoList() {
+    const response = await fetch('./data/nico-mylist.json', {
+      cache: 'no-store'
     });
 
     if (!response.ok) {
-      throw new Error(`マイリスト取得失敗: ${response.status}`);
+      throw new Error(`JSON取得失敗: ${response.status}`);
     }
 
-    return await response.json();
+    const data = await response.json();
+
+    if (!Array.isArray(data.videos) || data.videos.length === 0) {
+      throw new Error('動画リストが空です');
+    }
+
+    return data.videos;
   }
 
-  async function fetchAllVideoIdsFromMylist() {
-    const firstData = await fetchMylistPage(1);
-
-    const mylist = firstData.data?.mylist;
-    if (!mylist) {
-      throw new Error('マイリスト情報を取得できませんでした');
-    }
-
-    const totalCount = mylist.totalItemCount ?? 0;
-    const totalPages = Math.ceil(totalCount / PAGE_SIZE);
-
-    let items = mylist.items ?? [];
-
-    for (let page = 2; page <= totalPages; page++) {
-      const data = await fetchMylistPage(page);
-      const pageItems = data.data?.mylist?.items ?? [];
-      items = items.concat(pageItems);
-    }
-
-    const videoIds = items
-      .map(item => {
-        return (
-          item.video?.id ||
-          item.watchId ||
-          item.id ||
-          item.videoId ||
-          null
-        );
-      })
-      .filter(id => typeof id === 'string' && id.match(/^sm\d+$/));
-
-    return [...new Set(videoIds)];
-  }
-
-  function displayNicovideoEmbed(videoId) {
+  function displayNicovideoEmbed(video) {
     videoContainer.innerHTML = '';
 
     const script = document.createElement('script');
     script.type = 'application/javascript';
-    script.src = `https://embed.nicovideo.jp/watch/${videoId}/script?w=720&h=480`;
+    script.src = `https://embed.nicovideo.jp/watch/${video.id}/script?w=720&h=480`;
 
     videoContainer.appendChild(script);
+
+    const link = document.createElement('a');
+    link.href = video.url;
+    link.textContent = video.title || '動画ページを開く';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+
+    const fallback = document.createElement('noscript');
+    fallback.appendChild(link);
+
+    videoContainer.appendChild(fallback);
   }
 
   try {
-    const videoIds = await fetchAllVideoIdsFromMylist();
+    const videos = await fetchVideoList();
 
-    if (videoIds.length === 0) {
-      throw new Error('マイリスト内の動画IDを取得できませんでした');
-    }
+    const randomIndex = Math.floor(Math.random() * videos.length);
+    const selectedVideo = videos[randomIndex];
 
-    const randomIndex = Math.floor(Math.random() * videoIds.length);
-    const selectedVideoId = videoIds[randomIndex];
-
-    displayNicovideoEmbed(selectedVideoId);
+    displayNicovideoEmbed(selectedVideo);
 
   } catch (error) {
     console.error(error);
