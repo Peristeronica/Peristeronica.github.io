@@ -1,4 +1,4 @@
-﻿{
+﻿window.NICO_MYLIST_DATA = {
     "updatedAt":  "2026-05-08T20:03:31.6639058Z",
     "source":  "https://www.nicovideo.jp/user/61445526/mylist/78998106?rss=2.0",
     "totalCount":  58,
@@ -410,4 +410,4 @@
                        "description":  "System.Xml.XmlElement"
                    }
                ]
-}
+};

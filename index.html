@@ -3,17 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Caffeina &amp; Peristeronica official site</title>
-  <link rel="stylesheet" href="./common.css" />
-  <link rel="stylesheet" href="./index_style.css" />
-  <script
-    async
-    src="https://www.googletagmanager.com/gtag/js?id=G-LHELWF3404"
-  ></script>
+  <title>Caffeina&amp;Peristeronica Official Site</title>
+  <link rel="stylesheet" href="./common.css">
+  <link rel="stylesheet" href="./index_style.css">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHELWF3404"></script>
   <script>
-    window.dataLayer=window.dataLayer || [];
-    function gtag() { 
-    dataLayer.push(arguments); 
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
     }
     gtag("js", new Date());
     gtag("config", "G-LHELWF3404");
@@ -21,52 +18,102 @@
 </head>
 
 <body>
+  <header class="site-header" aria-label="サイトヘッダー">
+    <nav class="primary-nav" aria-label="ページ内ナビゲーション">
+      <a href="#news">NEWS</a>
+      <a href="#biography">BIOGRAPHY</a>
+    </nav>
 
-  
-  <header>
-    <ul>
-      <li><a href="https://www.youtube.com/watch?v=d-GfpLnBf0A">NEWS</a></li>
-      <li><a href="https://www.youtube.com/watch?v=d-GfpLnBf0A">BIOGRAPHY</a></li>
-    </ul>
-
-    <a href="./index.html">
-      <img src="niconico.png" alt="Caffeina & Peristeronica" width="22">
+    <a class="brand-logo" href="./index.html" aria-label="Caffeina and Peristeronica home">
+      <span>Caffeina</span>
+      <span>&amp;</span>
+      <span>Peristeronica</span>
     </a>
-    
-    <div class="sns_body">
-      <ul>
-        <li><a target="_blank" href="https://www.youtube.com/@caffeina5430">
-          <img src="niconico.png" alt="Youtube" width="22">
-        </a></li>
-        <li><a target="_blank" href="https://www.nicovideo.jp/user/122509962/video?ref=pc_userpage_menu">
-          <img src="niconico.png" alt="niconico" width="22">
-        </a></li>
-        <li><a target="_blank" href="https://x.com/caffeina_mono">
-          <img src="twitter.png" alt="Twitter_Caffeina" width="22">
-        </a></li>
-        <li><a target="_blank" href="https://www.youtube.com/watch?v=d-GfpLnBf0A">
-          <img src="twitter.png" alt="Twitter_Peristeronica" width="22">
-        </a></li>
-      </ul>
-    </div>
 
+    <nav class="social-nav" aria-label="SNSリンク">
+      <a class="social-link" href="https://x.com/caffeina_mono" target="_blank" rel="noreferrer" aria-label="Caffeina Twitter">
+        <img src="./twitter.png" alt="">
+      </a>
+      <a class="social-link" href="https://www.nicovideo.jp/user/122509962/video?ref=pc_userpage_menu" target="_blank" rel="noreferrer" aria-label="Caffeina Niconico">
+        <img src="./niconico.png" alt="">
+      </a>
+      <a class="social-link social-link-youtube" href="https://www.youtube.com/@caffeina5430" target="_blank" rel="noreferrer" aria-label="Caffeina YouTube">
+        <span></span>
+      </a>
+      <a class="social-link" href="https://x.com/" target="_blank" rel="noreferrer" aria-label="Peristeronica Twitter">
+        <img src="./twitter.png" alt="">
+      </a>
+      <a class="social-link" href="https://www.nicovideo.jp/" target="_blank" rel="noreferrer" aria-label="Peristeronica Niconico">
+        <img src="./niconico.png" alt="">
+      </a>
+    </nav>
   </header>
 
-  <div class="Caffeina">
-    <ul>
-      <li><a href="https://www.youtube.com/watch?v=d-GfpLnBf0A">DISCOGRAPHY</a></li>
-      <li><a href="https://www.youtube.com/watch?v=d-GfpLnBf0A">PROFILE</a></li>
-    </ul>
-  </div>
+  <main>
+    <section class="home-hero" aria-label="Caffeina and Peristeronica latest works">
+      <div class="latest-backdrop" aria-hidden="true">
+        <figure class="latest-panel caf-panel">
+          <img src="./Caffeina_LatestWork.png" alt="">
+        </figure>
+        <figure class="latest-panel per-panel">
+          <img src="./Peristeronica_LatestWork.jpg" alt="">
+        </figure>
+      </div>
 
-    <div class="Peristeronica">
-    <ul>
-      <li><a href="https://www.youtube.com/watch?v=d-GfpLnBf0A">DISCOGRAPHY</a></li>
-      <li><a href="https://www.youtube.com/watch?v=d-GfpLnBf0A">PROFILE</a></li>
-    </ul>
-  </div>
+      <div class="artist-switcher" aria-label="アーティストメニュー">
+        <article class="artist-card caf-card">
+          <a class="artist-icon" href="#caf-profile" aria-label="Caffeina profile">
+            <img src="./Caffeina_icon.png" alt="Caffeina icon">
+          </a>
+          <div class="artist-actions">
+            <a href="#caf-discography">DISCOGRAPHY</a>
+            <a href="#caf-profile">PROFILE</a>
+          </div>
+        </article>
 
-  <a href="inside_index.html">Latest Work</a></li>
+        <article class="artist-card per-card">
+          <a class="artist-icon" href="#per-profile" aria-label="Peristeronica profile">
+            <img src="./Peristeronica_icon.png" alt="Peristeronica icon">
+          </a>
+          <div class="artist-actions">
+            <a href="#per-discography">DISCOGRAPHY</a>
+            <a href="#per-profile">PROFILE</a>
+          </div>
+        </article>
+      </div>
+    </section>
 
+    <section class="content-section" id="news">
+      <p class="section-kicker">NEWS</p>
+      <h1>Caffeina&amp;Peristeronica official site</h1>
+      <p>CaffeinaとPeristeronica、二人のボカロPの活動と作品をまとめて見られるホームページです。</p>
+    </section>
+
+    <section class="content-section" id="biography">
+      <p class="section-kicker">BIOGRAPHY</p>
+      <h2>Caffeina / Peristeronica</h2>
+      <p>各アーティストのプロフィール、ディスコグラフィー、最新楽曲への導線をここから更新できます。</p>
+    </section>
+
+    <section class="artist-detail-grid" aria-label="アーティスト詳細">
+      <section class="artist-detail" id="caf-discography">
+        <p class="section-kicker">Caffeina</p>
+        <h2>DISCOGRAPHY</h2>
+      </section>
+      <section class="artist-detail" id="caf-profile">
+        <p class="section-kicker">Caffeina</p>
+        <h2>PROFILE</h2>
+      </section>
+      <section class="artist-detail" id="per-discography">
+        <p class="section-kicker">Peristeronica</p>
+        <h2>DISCOGRAPHY</h2>
+      </section>
+      <section class="artist-detail" id="per-profile">
+        <p class="section-kicker">Peristeronica</p>
+        <h2>PROFILE</h2>
+      </section>
+    </section>
+  </main>
+  <script src="./index_script.js"></script>
 </body>
 </html>
