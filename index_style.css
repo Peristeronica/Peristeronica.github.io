@@ -340,10 +340,14 @@ a {
   margin: 0 0 18px;
 }
 
-.content-section p:last-child {
+.content-section p {
   font-size: 1.12rem;
   line-height: 1.9;
-  margin: 0;
+  margin: 0 0 1em;
+}
+
+.content-section p:last-child {
+  margin-bottom: 0;
 }
 
 .artist-detail-grid {
