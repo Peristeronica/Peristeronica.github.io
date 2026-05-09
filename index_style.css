@@ -313,66 +313,13 @@ a {
   transform: scale(1.05);
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .artist-card:hover::before {
-    opacity: 1;
-    transform: scaleX(1);
-  }
-
-  .artist-card:hover .artist-name {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
-
-  .artist-card:hover .artist-icon {
-    border-color: #ffffff;
-    transform: scale(1.04);
-  }
-
-  .artist-card:hover .artist-actions {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateX(0);
-  }
-
-  .home-hero:has(.caf-card:hover) .caf-panel {
-    flex-basis: 100%;
-  }
-
-  .home-hero:has(.caf-card:hover) .per-panel {
-    flex-basis: 0%;
-    opacity: 0;
-    transform: translateY(100%);
-  }
-
-  .home-hero:has(.caf-card:hover) .caf-panel img,
-  .home-hero:has(.per-card:hover) .per-panel img {
-    filter: saturate(1.08) contrast(1.1);
-    transform: scale(1.05);
-  }
-
-  .home-hero:has(.per-card:hover) .per-panel {
-    flex-basis: 100%;
-  }
-
-  .home-hero:has(.per-card:hover) .caf-panel {
-    flex-basis: 0%;
-    opacity: 0;
-    transform: translateY(-100%);
-  }
-
-  .home-hero:has(.per-card:hover) .per-panel img {
-    transform: scale(1.05);
-  }
-}
-
 .content-section,
-.artist-detail-grid {
+.artist-profile-list {
   padding: clamp(54px, 8vw, 110px) clamp(18px, 7vw, 120px);
 }
 
 .content-section,
-.artist-detail {
+.artist-profile {
   scroll-margin-top: calc(var(--header-height) + 28px);
 }
 
@@ -391,7 +338,7 @@ a {
 
 .content-section h1,
 .content-section h2,
-.artist-detail h2 {
+.artist-profile h2 {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 3.4rem;
   line-height: 1;
@@ -408,14 +355,14 @@ a {
   margin-bottom: 0;
 }
 
-.artist-detail-grid {
+.artist-profile-list {
   border-top: 1px solid var(--line);
   display: grid;
-  gap: 1px;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  max-width: 980px;
 }
 
-.artist-detail {
+.artist-profile {
   background: #ffffff;
   border: 1px solid var(--line);
   min-height: 220px;
@@ -465,9 +412,6 @@ a {
     padding: 9px 12px;
   }
 
-  .artist-detail-grid {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 @media (max-width: 560px) {
@@ -538,17 +482,13 @@ a {
     transform: none;
   }
 
-  .artist-detail-grid {
-    grid-template-columns: 1fr;
-  }
-
   .brand-logo {
     font-size: 1.02rem;
   }
 
   .content-section h1,
   .content-section h2,
-  .artist-detail h2 {
+  .artist-profile h2 {
     font-size: 2.1rem;
   }
 }
