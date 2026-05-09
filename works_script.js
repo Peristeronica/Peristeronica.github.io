@@ -257,7 +257,7 @@ function buildVideoEmbed(work) {
       src: `https://www.youtube.com/embed/${encodeURIComponent(video.id)}?${params.toString()}`,
       start,
       end,
-      volume: 45,
+      volume: 40,
     };
   }
 
