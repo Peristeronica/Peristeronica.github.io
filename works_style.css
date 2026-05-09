@@ -192,6 +192,11 @@ a {
   grid-template-rows: auto 1fr;
 }
 
+.caffeina-works-page .work-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
 .work-card:hover,
 .work-card:focus-visible {
   opacity: 0.82;
@@ -229,13 +234,29 @@ a {
   padding-top: 75%;
 }
 
+.caffeina-works-page .work-card::before {
+  content: "";
+  grid-area: 1 / 1;
+  padding-top: 56.25%;
+}
+
 .peristeronica-works-page .work-cover {
   align-self: end;
   grid-area: 1 / 1;
   margin-top: 0;
 }
 
+.caffeina-works-page .work-cover {
+  align-self: end;
+  grid-area: 1 / 1;
+  margin-top: 0;
+}
+
 .peristeronica-works-page .work-body {
+  grid-area: 2 / 1;
+}
+
+.caffeina-works-page .work-body {
   grid-area: 2 / 1;
 }
 
