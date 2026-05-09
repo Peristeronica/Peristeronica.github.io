@@ -12,7 +12,7 @@ window.siteWorks = {
     {
       title: "0 gravity ft.初音ミク",
       description: "Caffeina 2作目",
-      role: "作詞曲・編曲, 映像編集",
+      role: "作詞曲・編曲",
       date: "2022-02-18",
       type: "Music",
       cover: "./Caffeina_0gravity_thumb.jpg",
@@ -21,7 +21,7 @@ window.siteWorks = {
     {
       title: "海鳴り ft.初音ミク",
       description: "Caffeina 3作目",
-      role: "作詞曲・編曲, 映像編集",
+      role: "作詞曲・編曲",
       date: "2022-08-31",
       type: "Music",
       cover: "./Caffeina_Uminari_thumb.jpg",
@@ -39,11 +39,20 @@ window.siteWorks = {
     {
       title: "夏風邪 ft.初音ミク",
       description: "Caffeina 5作目",
-      role: "楽曲共作, 映像編集",
+      role: "共作詞編曲, 映像編集",
       date: "2023-08-04",
       type: "Music",
       cover: "./Caffeina_Natsukaze_thumb.jpg",
       url: "https://www.nicovideo.jp/watch/sm42573094",
+    },
+    {
+      title: "煤煙 ft.知声",
+      description: "無色透名祭3 参加曲",
+      role: "楽曲共作, 映像編集",
+      date: "2025-11-21",
+      type: "Music",
+      cover: "./Caffeina_Baien_thumb.jpg",
+      url: "https://www.nicovideo.jp/watch/so45520678",
     },
   ],
   peristeronica: {
