@@ -188,6 +188,10 @@ a {
   position: relative;
 }
 
+.caffeina-works-page .work-cover {
+  aspect-ratio: 16 / 9;
+}
+
 .work-cover img {
   display: block;
   height: 100%;

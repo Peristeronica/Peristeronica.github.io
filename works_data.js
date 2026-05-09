@@ -12,7 +12,7 @@ window.siteWorks = {
     {
       title: "0 gravity ft.初音ミク",
       description: "Caffeina 2作目",
-      role: "作詞曲・編曲",
+      role: "作詞曲・編曲, 映像編集",
       date: "2022-02-18",
       type: "Music",
       cover: "./Caffeina_0gravity_thumb.jpg",
@@ -21,7 +21,7 @@ window.siteWorks = {
     {
       title: "海鳴り ft.初音ミク",
       description: "Caffeina 3作目",
-      role: "作詞曲・編曲",
+      role: "作詞曲・編曲, 映像編集",
       date: "2022-08-31",
       type: "Music",
       cover: "./Caffeina_Uminari_thumb.jpg",
