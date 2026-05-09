@@ -5,6 +5,7 @@
   --line: rgba(17, 19, 24, 0.14);
   --caf: #e94f37;
   --per: #177e89;
+  scrollbar-gutter: stable;
 }
 
 * {
@@ -51,6 +52,20 @@ a {
   font-size: 0.82rem;
   font-weight: 800;
   letter-spacing: 0.08em;
+}
+
+.primary-nav .nav-switch {
+  background: var(--ink);
+  color: #ffffff;
+  padding: 9px 12px;
+}
+
+.caffeina-works-page .primary-nav .nav-switch {
+  background: var(--per);
+}
+
+.peristeronica-works-page .primary-nav .nav-switch {
+  background: var(--caf);
 }
 
 .brand-logo {
