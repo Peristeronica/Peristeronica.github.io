@@ -12,6 +12,39 @@ const konamiCode = [
 ];
 
 let konamiIndex = 0;
+const mobileMenuQuery = window.matchMedia("(max-width: 820px)");
+const artistCards = [...document.querySelectorAll(".artist-card")];
+
+function closeArtistMenus(exceptCard) {
+  artistCards.forEach((card) => {
+    if (card !== exceptCard) {
+      card.classList.remove("is-open");
+    }
+  });
+}
+
+artistCards.forEach((card) => {
+  const icon = card.querySelector(".artist-icon");
+
+  icon?.addEventListener("click", (event) => {
+    if (!mobileMenuQuery.matches) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+    closeArtistMenus(card);
+    card.classList.toggle("is-open");
+  });
+});
+
+document.addEventListener("click", (event) => {
+  if (!mobileMenuQuery.matches || event.target.closest(".artist-card")) {
+    return;
+  }
+
+  closeArtistMenus();
+});
 
 window.addEventListener("keydown", (event) => {
   const target = event.target;
