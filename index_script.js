@@ -321,17 +321,45 @@ function postProfileNiconicoCommand(iframe, playerId, eventName, data = {}) {
 
 function primeProfileNiconicoPlayer(iframe, embed) {
   let hasStarted = false;
+  let hasRequestedSeek = false;
+  let isPlaying = false;
+  let playRetryTimer = 0;
   let fallbackTimer = 0;
-  let confirmTimer = 0;
   let seekRepairAttempts = 0;
   let lastSeekAt = 0;
   let hasSyncedTimer = false;
+  let lastKnownTime = null;
 
-  const seekAndPlay = () => {
+  const requestSeek = () => {
     lastSeekAt = Date.now();
+    hasRequestedSeek = true;
     postProfileNiconicoCommand(iframe, embed.playerId, "volumeChange", { volume: embed.volume / 100 });
     postProfileNiconicoCommand(iframe, embed.playerId, "seek", { time: embed.start });
+  };
+
+  const requestPlay = () => {
+    if (!document.body.contains(iframe) || isPlaying) {
+      return;
+    }
+
     postProfileNiconicoCommand(iframe, embed.playerId, "play");
+  };
+
+  const retryPlay = () => {
+    let attempts = 0;
+
+    window.clearInterval(playRetryTimer);
+    playRetryTimer = window.setInterval(() => {
+      attempts += 1;
+
+      if (isPlaying || !document.body.contains(iframe) || attempts > 12) {
+        window.clearInterval(playRetryTimer);
+        playRetryTimer = 0;
+        return;
+      }
+
+      requestPlay();
+    }, 650);
   };
 
   const startPlayback = () => {
@@ -341,16 +369,7 @@ function primeProfileNiconicoPlayer(iframe, embed) {
 
     hasStarted = true;
     window.clearTimeout(fallbackTimer);
-    seekAndPlay();
-
-    confirmTimer = window.setTimeout(() => {
-      if (!document.body.contains(iframe)) {
-        return;
-      }
-
-      seekAndPlay();
-      scheduleProfileAutoNext(embed);
-    }, 500);
+    requestSeek();
   };
 
   const handleMessage = (event) => {
@@ -375,6 +394,20 @@ function primeProfileNiconicoPlayer(iframe, embed) {
       startPlayback();
     }
 
+    if (eventName === "statusChange" && hasRequestedSeek) {
+      requestPlay();
+      retryPlay();
+    }
+
+    if (eventName === "playerStatusChange") {
+      isPlaying = payload.data?.playerStatus === 2;
+
+      if (isPlaying) {
+        window.clearInterval(playRetryTimer);
+        playRetryTimer = 0;
+      }
+    }
+
     if (eventName !== "playerMetadataChange" || !hasStarted) {
       return;
     }
@@ -385,19 +418,27 @@ function primeProfileNiconicoPlayer(iframe, embed) {
       return;
     }
 
-    if (Number.isFinite(embed.end) && currentTime >= embed.end - 0.25) {
+    const hasAdvanced = Number.isFinite(lastKnownTime) && currentTime > lastKnownTime + 0.15;
+    lastKnownTime = currentTime;
+
+    if (currentTime >= embed.start - 0.5 && hasRequestedSeek && !isPlaying) {
+      requestPlay();
+      retryPlay();
+    }
+
+    if (Number.isFinite(embed.end) && isPlaying && currentTime >= embed.end - 0.25) {
       moveProfileViewer(1);
       return;
     }
 
-    if (Number.isFinite(embed.end) && !hasSyncedTimer && currentTime >= embed.start - 0.5) {
+    if (Number.isFinite(embed.end) && !hasSyncedTimer && (isPlaying || hasAdvanced) && currentTime >= embed.start - 0.5) {
       hasSyncedTimer = true;
       scheduleProfileAutoNext(embed, currentTime);
     }
 
     if (currentTime < embed.start - 1 && Date.now() - lastSeekAt > 900 && seekRepairAttempts < 3) {
       seekRepairAttempts += 1;
-      seekAndPlay();
+      requestSeek();
     }
   };
 
@@ -409,7 +450,7 @@ function primeProfileNiconicoPlayer(iframe, embed) {
 
   profileNiconicoCleanup = () => {
     window.clearTimeout(fallbackTimer);
-    window.clearTimeout(confirmTimer);
+    window.clearInterval(playRetryTimer);
     window.removeEventListener("message", handleMessage);
   };
 }
