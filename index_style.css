@@ -437,13 +437,29 @@ a {
 }
 
 .profile-icon {
-  border: 3px solid var(--caf);
+  border: 1px solid var(--line);
   border-radius: 50%;
+  box-shadow: 0 10px 30px rgba(17, 19, 24, 0.1);
   display: block;
   flex: 0 0 auto;
   height: clamp(92px, 12vw, 132px);
   object-fit: cover;
   width: clamp(92px, 12vw, 132px);
+}
+
+.profile-quote {
+  border-left: 3px solid var(--caf);
+  color: rgba(17, 19, 24, 0.78);
+  margin: 14px 0 0;
+  padding: 0 0 0 14px;
+}
+
+.profile-quote p {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(0.98rem, 1.8vw, 1.18rem);
+  font-weight: 700;
+  line-height: 1.65;
+  margin: 0;
 }
 
 .profile-copy {
