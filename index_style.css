@@ -16,6 +16,10 @@ body {
   color: var(--ink);
 }
 
+body.is-profile-viewer-open {
+  overflow: hidden;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -377,6 +381,8 @@ a {
 
 .content-section {
   border-top: 1px solid var(--line);
+  margin-left: auto;
+  margin-right: auto;
   max-width: 980px;
 }
 
@@ -411,6 +417,8 @@ a {
   border-top: 1px solid var(--line);
   display: grid;
   gap: 18px;
+  margin-left: auto;
+  margin-right: auto;
   max-width: 980px;
 }
 
@@ -419,6 +427,237 @@ a {
   border: 1px solid var(--line);
   min-height: 220px;
   padding: clamp(20px, 3vw, 34px);
+}
+
+.profile-head {
+  align-items: center;
+  display: flex;
+  gap: clamp(18px, 3vw, 30px);
+  margin-bottom: clamp(22px, 4vw, 38px);
+}
+
+.profile-icon {
+  border: 3px solid var(--caf);
+  border-radius: 50%;
+  display: block;
+  flex: 0 0 auto;
+  height: clamp(92px, 12vw, 132px);
+  object-fit: cover;
+  width: clamp(92px, 12vw, 132px);
+}
+
+.profile-copy {
+  max-width: 820px;
+}
+
+.profile-copy p {
+  font-size: clamp(0.98rem, 1.5vw, 1.08rem);
+  line-height: 1.95;
+  margin: 0 0 1em;
+}
+
+.profile-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.profile-featured {
+  margin-top: clamp(34px, 5vw, 54px);
+}
+
+.profile-featured h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin: 0 0 18px;
+}
+
+.profile-work-list {
+  display: grid;
+  gap: clamp(18px, 3vw, 30px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.profile-work-card {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: grid;
+  font: inherit;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+  padding: 0;
+  text-align: left;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.profile-work-card:hover,
+.profile-work-card:focus-visible {
+  opacity: 0.84;
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.profile-work-cover {
+  aspect-ratio: 16 / 9;
+  background: #ece7df;
+  box-shadow: 0 1px 0 rgba(17, 19, 24, 0.08);
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.profile-work-cover img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.profile-work-tag {
+  background: var(--ink);
+  bottom: 10px;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  line-height: 1;
+  padding: 7px 9px;
+  position: absolute;
+  right: 10px;
+}
+
+.type-music .profile-work-tag {
+  background: var(--per);
+}
+
+.profile-work-body {
+  display: grid;
+  gap: 6px;
+  padding: 14px 0 0;
+}
+
+.profile-work-body h4 {
+  font-size: clamp(1.02rem, 1.7vw, 1.24rem);
+  font-weight: 800;
+  line-height: 1.28;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.profile-work-body p {
+  color: rgba(17, 19, 24, 0.68);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.profile-works-link {
+  background: var(--ink);
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin-top: clamp(24px, 4vw, 38px);
+  padding: 12px 16px;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.profile-works-link:hover,
+.profile-works-link:focus-visible {
+  background: var(--caf);
+  transform: translateY(-2px);
+}
+
+.profile-viewer {
+  align-items: center;
+  background: rgba(17, 19, 24, 0.78);
+  display: none;
+  gap: clamp(8px, 1.8vw, 24px);
+  inset: 0;
+  justify-content: center;
+  padding: clamp(16px, 3.4vw, 42px);
+  position: fixed;
+  z-index: 70;
+}
+
+.profile-viewer.is-open {
+  display: flex;
+}
+
+.profile-viewer-panel {
+  background: #0d0f14;
+  color: #ffffff;
+  display: grid;
+  flex: 0 1 min(1360px, 84vw, calc((100svh - clamp(32px, 6.8vw, 84px)) * 16 / 9));
+  max-width: min(1360px, 84vw, calc((100svh - clamp(32px, 6.8vw, 84px)) * 16 / 9));
+  min-width: 0;
+  position: relative;
+}
+
+.profile-viewer-frame {
+  aspect-ratio: 16 / 9;
+  background: #000000;
+  display: grid;
+  place-items: center;
+  width: 100%;
+}
+
+.profile-viewer-frame iframe {
+  border: 0;
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.profile-viewer-frame a {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #ffffff;
+  font-size: 0.86rem;
+  font-weight: 800;
+  padding: 12px 18px;
+}
+
+.profile-viewer-close {
+  appearance: none;
+  background: rgba(255, 255, 255, 0.94);
+  border: 0;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 1.5rem;
+  height: 42px;
+  line-height: 1;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate(50%, -50%);
+  width: 42px;
+  z-index: 1;
+}
+
+.profile-viewer-arrow {
+  align-self: stretch;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  cursor: pointer;
+  flex: 0 0 clamp(42px, 5vw, 70px);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  font-weight: 300;
+  line-height: 1;
+  transition: background 180ms ease, border-color 180ms ease;
+}
+
+.profile-viewer-arrow:hover,
+.profile-viewer-arrow:focus-visible {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.24);
+  outline: none;
 }
 
 @media (max-width: 820px) {
@@ -467,6 +706,33 @@ a {
   .artist-actions a {
     min-width: 138px;
     padding: 9px 12px;
+  }
+
+  .profile-work-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .profile-viewer {
+    gap: 8px;
+    padding: 18px 10px;
+  }
+
+  .profile-viewer-panel {
+    flex-basis: min(calc(100vw - 86px), calc((100svh - 36px) * 16 / 9));
+    max-width: calc(100vw - 86px);
+  }
+
+  .profile-viewer-arrow {
+    flex-basis: 34px;
+    font-size: 2rem;
+  }
+
+  .profile-viewer-close {
+    height: 36px;
+    right: 8px;
+    top: 8px;
+    transform: none;
+    width: 36px;
   }
 
 }
@@ -560,5 +826,43 @@ a {
   .content-section h2,
   .artist-profile h2 {
     font-size: 2.1rem;
+  }
+
+  .profile-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .profile-work-list {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-work-body h4 {
+    font-size: 1rem;
+  }
+
+  .profile-work-tag {
+    bottom: 6px;
+    font-size: 0.62rem;
+    padding: 6px 7px;
+    right: 6px;
+  }
+
+  .profile-viewer {
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 14px;
+  }
+
+  .profile-viewer-panel {
+    flex-basis: min(calc(100vw - 28px), calc((100svh - 90px) * 16 / 9));
+    max-width: 100%;
+    order: 1;
+  }
+
+  .profile-viewer-arrow {
+    flex: 1 1 calc(50% - 4px);
+    height: 48px;
+    order: 2;
   }
 }

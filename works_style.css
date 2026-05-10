@@ -58,14 +58,19 @@ a {
   background: var(--ink);
   color: #ffffff;
   padding: 9px 12px;
+  transition: background 180ms ease, transform 180ms ease;
 }
 
-.caffeina-works-page .primary-nav .nav-switch {
+.caffeina-works-page .primary-nav .nav-switch:hover,
+.caffeina-works-page .primary-nav .nav-switch:focus-visible {
   background: var(--per);
+  transform: translateY(-2px);
 }
 
-.peristeronica-works-page .primary-nav .nav-switch {
+.peristeronica-works-page .primary-nav .nav-switch:hover,
+.peristeronica-works-page .primary-nav .nav-switch:focus-visible {
   background: var(--caf);
+  transform: translateY(-2px);
 }
 
 .brand-logo {
