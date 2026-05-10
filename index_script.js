@@ -19,6 +19,7 @@ let profileContext = null;
 let profileStopTimer = 0;
 let profileYouTubePlayer = null;
 let profileYouTubeApiPromise = null;
+let profileNiconicoCleanup = null;
 
 const profileTypeLabels = {
   Music: "Music",
@@ -266,6 +267,10 @@ function buildProfileEmbed(work) {
     playerId,
   });
 
+  if (Number.isFinite(start)) {
+    params.set("from", String(Math.floor(start)));
+  }
+
   return {
     provider: "niconico",
     playerId,
@@ -283,7 +288,14 @@ function clearProfileStopTimer() {
   }
 }
 
-function scheduleProfileAutoNext(embed) {
+function cleanupProfileNiconicoController() {
+  if (profileNiconicoCleanup) {
+    profileNiconicoCleanup();
+    profileNiconicoCleanup = null;
+  }
+}
+
+function scheduleProfileAutoNext(embed, currentTime = embed.start) {
   clearProfileStopTimer();
 
   if (!Number.isFinite(embed.end)) {
@@ -292,7 +304,7 @@ function scheduleProfileAutoNext(embed) {
 
   profileStopTimer = window.setTimeout(() => {
     moveProfileViewer(1);
-  }, Math.max(0, embed.end - embed.start) * 1000);
+  }, Math.max(0, embed.end - currentTime) * 1000);
 }
 
 function postProfileNiconicoCommand(iframe, playerId, eventName, data = {}) {
@@ -308,18 +320,98 @@ function postProfileNiconicoCommand(iframe, playerId, eventName, data = {}) {
 }
 
 function primeProfileNiconicoPlayer(iframe, embed) {
-  let attempts = 0;
-  const timer = window.setInterval(() => {
-    attempts += 1;
+  let hasStarted = false;
+  let fallbackTimer = 0;
+  let confirmTimer = 0;
+  let seekRepairAttempts = 0;
+  let lastSeekAt = 0;
+  let hasSyncedTimer = false;
+
+  const seekAndPlay = () => {
+    lastSeekAt = Date.now();
     postProfileNiconicoCommand(iframe, embed.playerId, "volumeChange", { volume: embed.volume / 100 });
     postProfileNiconicoCommand(iframe, embed.playerId, "seek", { time: embed.start });
     postProfileNiconicoCommand(iframe, embed.playerId, "play");
+  };
 
-    if (attempts >= 6) {
-      window.clearInterval(timer);
-      scheduleProfileAutoNext(embed);
+  const startPlayback = () => {
+    if (hasStarted || !document.body.contains(iframe)) {
+      return;
     }
-  }, 420);
+
+    hasStarted = true;
+    window.clearTimeout(fallbackTimer);
+    seekAndPlay();
+
+    confirmTimer = window.setTimeout(() => {
+      if (!document.body.contains(iframe)) {
+        return;
+      }
+
+      seekAndPlay();
+      scheduleProfileAutoNext(embed);
+    }, 500);
+  };
+
+  const handleMessage = (event) => {
+    let payload = event.data;
+
+    if (typeof payload === "string") {
+      try {
+        payload = JSON.parse(payload);
+      } catch {
+        return;
+      }
+    }
+
+    if (event.origin !== "https://embed.nicovideo.jp" || payload?.playerId !== embed.playerId) {
+      return;
+    }
+
+    const eventName = payload.eventName;
+    const metadataLoaded = eventName === "playerMetadataChange" && payload.data?.isVideoMetaDataLoaded;
+
+    if (eventName === "loadComplete" || metadataLoaded) {
+      startPlayback();
+    }
+
+    if (eventName !== "playerMetadataChange" || !hasStarted) {
+      return;
+    }
+
+    const currentTime = Number(payload.data?.currentTime);
+
+    if (!Number.isFinite(currentTime)) {
+      return;
+    }
+
+    if (Number.isFinite(embed.end) && currentTime >= embed.end - 0.25) {
+      moveProfileViewer(1);
+      return;
+    }
+
+    if (Number.isFinite(embed.end) && !hasSyncedTimer && currentTime >= embed.start - 0.5) {
+      hasSyncedTimer = true;
+      scheduleProfileAutoNext(embed, currentTime);
+    }
+
+    if (currentTime < embed.start - 1 && Date.now() - lastSeekAt > 900 && seekRepairAttempts < 3) {
+      seekRepairAttempts += 1;
+      seekAndPlay();
+    }
+  };
+
+  cleanupProfileNiconicoController();
+  window.addEventListener("message", handleMessage);
+  fallbackTimer = window.setTimeout(startPlayback, 1800);
+
+  postProfileNiconicoCommand(iframe, embed.playerId, "volumeChange", { volume: embed.volume / 100 });
+
+  profileNiconicoCleanup = () => {
+    window.clearTimeout(fallbackTimer);
+    window.clearTimeout(confirmTimer);
+    window.removeEventListener("message", handleMessage);
+  };
 }
 
 function loadProfileYouTubeApi() {
@@ -374,6 +466,7 @@ function renderProfileViewer() {
   const embed = buildProfileEmbed(work);
 
   clearProfileStopTimer();
+  cleanupProfileNiconicoController();
   profileYouTubePlayer?.destroy?.();
   profileYouTubePlayer = null;
   elements.frameSlot.replaceChildren();
@@ -436,6 +529,7 @@ function closeProfileViewer() {
   const elements = ensureProfileViewer();
 
   clearProfileStopTimer();
+  cleanupProfileNiconicoController();
   profileYouTubePlayer?.destroy?.();
   profileYouTubePlayer = null;
   profileContext = null;
