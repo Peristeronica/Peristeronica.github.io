@@ -329,14 +329,13 @@ function postProfileNiconicoCommand(iframe, playerId, eventName, data = {}) {
 
 function primeProfileNiconicoPlayer(iframe, embed) {
   const elements = ensureProfileViewer();
-  let hasStarted = false;
   let hasRequestedSeek = false;
   let isPlaying = false;
   let playRetryTimer = 0;
-  let startButtonTimer = 0;
   let fallbackTimer = 0;
   let seekRepairAttempts = 0;
   let lastSeekAt = 0;
+  let shouldUnmuteOnStart = false;
 
   const requestSeek = () => {
     lastSeekAt = Date.now();
@@ -345,12 +344,16 @@ function primeProfileNiconicoPlayer(iframe, embed) {
     postProfileNiconicoCommand(iframe, embed.playerId, "seek", { time: embed.start });
   };
 
-  const requestPlay = () => {
+  const requestPlay = (mutedAutoplay = false) => {
     if (!document.body.contains(iframe) || isPlaying) {
       return;
     }
 
-    elements.startButton.hidden = true;
+    if (mutedAutoplay) {
+      shouldUnmuteOnStart = true;
+      postProfileNiconicoCommand(iframe, embed.playerId, "mute", { mute: true });
+    }
+
     postProfileNiconicoCommand(iframe, embed.playerId, "play");
   };
 
@@ -362,8 +365,14 @@ function primeProfileNiconicoPlayer(iframe, embed) {
     isPlaying = true;
     window.clearInterval(playRetryTimer);
     playRetryTimer = 0;
-    window.clearTimeout(startButtonTimer);
     elements.startButton.hidden = true;
+
+    if (shouldUnmuteOnStart) {
+      shouldUnmuteOnStart = false;
+      postProfileNiconicoCommand(iframe, embed.playerId, "mute", { mute: false });
+      postProfileNiconicoCommand(iframe, embed.playerId, "volumeChange", { volume: embed.volume / 100 });
+    }
+
     scheduleProfileAutoNext(embed);
   };
 
@@ -373,6 +382,7 @@ function primeProfileNiconicoPlayer(iframe, embed) {
   };
 
   elements.startButton.onclick = () => {
+    shouldUnmuteOnStart = false;
     requestSeek();
     requestPlay();
     retryPlay();
@@ -396,13 +406,14 @@ function primeProfileNiconicoPlayer(iframe, embed) {
   };
 
   const startPlayback = () => {
-    if (hasStarted || !document.body.contains(iframe)) {
+    if (isPlaying || !document.body.contains(iframe)) {
       return;
     }
 
-    hasStarted = true;
     window.clearTimeout(fallbackTimer);
     requestSeek();
+    requestPlay(true);
+    retryPlay();
   };
 
   const handleMessage = (event) => {
@@ -442,7 +453,7 @@ function primeProfileNiconicoPlayer(iframe, embed) {
       }
     }
 
-    if (eventName !== "playerMetadataChange" || !hasStarted) {
+    if (eventName !== "playerMetadataChange" || !hasRequestedSeek) {
       return;
     }
 
@@ -464,19 +475,14 @@ function primeProfileNiconicoPlayer(iframe, embed) {
   };
 
   cleanupProfileNiconicoController();
+  elements.startButton.hidden = false;
   window.addEventListener("message", handleMessage);
   fallbackTimer = window.setTimeout(startPlayback, 1800);
-  startButtonTimer = window.setTimeout(() => {
-    if (!isPlaying && document.body.contains(iframe)) {
-      elements.startButton.hidden = false;
-    }
-  }, 2400);
 
   postProfileNiconicoCommand(iframe, embed.playerId, "volumeChange", { volume: embed.volume / 100 });
 
   profileNiconicoCleanup = () => {
     window.clearTimeout(fallbackTimer);
-    window.clearTimeout(startButtonTimer);
     window.clearInterval(playRetryTimer);
     window.removeEventListener("message", handleMessage);
     elements.startButton.hidden = true;
@@ -555,6 +561,7 @@ function renderProfileViewer() {
 
   const iframe = document.createElement("iframe");
   iframe.src = embed.src;
+  iframe.className = `profile-viewer-iframe profile-viewer-iframe-${embed.provider}`;
   iframe.title = work.title;
   iframe.allow = "autoplay; fullscreen; picture-in-picture";
   iframe.allowFullscreen = true;
