@@ -284,6 +284,10 @@ a {
   right: 10px;
 }
 
+.caffeina-works-page .work-tag {
+  display: none;
+}
+
 .type-music .work-tag {
   background: var(--per);
 }

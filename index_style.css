@@ -69,13 +69,49 @@ a {
 }
 
 .social-nav {
+  gap: clamp(12px, 1.4vw, 18px);
   justify-content: flex-end;
+}
+
+.social-group {
+  align-items: center;
+  display: inline-flex;
+  gap: 7px;
+}
+
+.social-owner {
+  align-items: center;
+  background: #ffffff;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 36px;
+  justify-content: center;
+  overflow: hidden;
+  width: 36px;
+}
+
+.social-group-caffeina {
+  color: var(--caf);
+}
+
+.social-group-peristeronica {
+  color: var(--per);
+}
+
+.social-owner img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
 }
 
 .social-link {
   align-items: center;
   background: #ffffff;
   border: 1px solid var(--line);
+  color: var(--ink);
   display: inline-flex;
   height: 34px;
   justify-content: center;
@@ -98,6 +134,22 @@ a {
 
 .social-link-youtube {
   background: #ffffff;
+}
+
+@media (max-width: 1120px) {
+  .social-nav {
+    gap: 12px;
+  }
+
+  .social-group {
+    gap: 5px;
+  }
+
+  .social-owner,
+  .social-link {
+    height: 30px;
+    width: 30px;
+  }
 }
 
 .home-hero {
@@ -371,7 +423,7 @@ a {
 
 @media (max-width: 820px) {
   :root {
-    --header-height: 116px;
+    --header-height: 132px;
   }
 
   .site-header {
@@ -385,6 +437,11 @@ a {
   .primary-nav,
   .social-nav {
     justify-content: center;
+  }
+
+  .social-nav {
+    flex-wrap: wrap;
+    row-gap: 8px;
   }
 
   .brand-logo {
@@ -415,11 +472,24 @@ a {
 }
 
 @media (max-width: 560px) {
+  :root {
+    --header-height: 156px;
+  }
+
   .primary-nav a {
     font-size: 0.76rem;
   }
 
   .social-link {
+    height: 30px;
+    width: 30px;
+  }
+
+  .social-group {
+    gap: 5px;
+  }
+
+  .social-owner {
     height: 30px;
     width: 30px;
   }
