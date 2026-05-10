@@ -147,7 +147,13 @@ function ensureProfileViewer() {
   const frameSlot = document.createElement("div");
   frameSlot.className = "profile-viewer-frame";
 
-  panel.append(closeButton, frameSlot);
+  const startButton = document.createElement("button");
+  startButton.className = "profile-viewer-start";
+  startButton.type = "button";
+  startButton.hidden = true;
+  startButton.textContent = "PLAY";
+
+  panel.append(closeButton, frameSlot, startButton);
 
   const rightButton = document.createElement("button");
   rightButton.className = "profile-viewer-arrow profile-viewer-arrow-right";
@@ -170,6 +176,7 @@ function ensureProfileViewer() {
   profileViewer = {
     viewer,
     frameSlot,
+    startButton,
   };
 
   return profileViewer;
@@ -263,6 +270,7 @@ function buildProfileEmbed(work) {
 
   const playerId = `profile-niconico-${Date.now()}`;
   const params = new URLSearchParams({
+    autoplay: "1",
     jsapi: "1",
     playerId,
   });
@@ -320,15 +328,15 @@ function postProfileNiconicoCommand(iframe, playerId, eventName, data = {}) {
 }
 
 function primeProfileNiconicoPlayer(iframe, embed) {
+  const elements = ensureProfileViewer();
   let hasStarted = false;
   let hasRequestedSeek = false;
   let isPlaying = false;
   let playRetryTimer = 0;
+  let startButtonTimer = 0;
   let fallbackTimer = 0;
   let seekRepairAttempts = 0;
   let lastSeekAt = 0;
-  let hasSyncedTimer = false;
-  let lastKnownTime = null;
 
   const requestSeek = () => {
     lastSeekAt = Date.now();
@@ -342,7 +350,32 @@ function primeProfileNiconicoPlayer(iframe, embed) {
       return;
     }
 
+    elements.startButton.hidden = true;
     postProfileNiconicoCommand(iframe, embed.playerId, "play");
+  };
+
+  const handlePlaybackStarted = () => {
+    if (isPlaying) {
+      return;
+    }
+
+    isPlaying = true;
+    window.clearInterval(playRetryTimer);
+    playRetryTimer = 0;
+    window.clearTimeout(startButtonTimer);
+    elements.startButton.hidden = true;
+    scheduleProfileAutoNext(embed);
+  };
+
+  const handlePlaybackStopped = () => {
+    isPlaying = false;
+    clearProfileStopTimer();
+  };
+
+  elements.startButton.onclick = () => {
+    requestSeek();
+    requestPlay();
+    retryPlay();
   };
 
   const retryPlay = () => {
@@ -400,11 +433,12 @@ function primeProfileNiconicoPlayer(iframe, embed) {
     }
 
     if (eventName === "playerStatusChange") {
-      isPlaying = payload.data?.playerStatus === 2;
+      const playerStatus = payload.data?.playerStatus;
 
-      if (isPlaying) {
-        window.clearInterval(playRetryTimer);
-        playRetryTimer = 0;
+      if (playerStatus === 2) {
+        handlePlaybackStarted();
+      } else if (playerStatus === 3 || playerStatus === 4) {
+        handlePlaybackStopped();
       }
     }
 
@@ -418,22 +452,9 @@ function primeProfileNiconicoPlayer(iframe, embed) {
       return;
     }
 
-    const hasAdvanced = Number.isFinite(lastKnownTime) && currentTime > lastKnownTime + 0.15;
-    lastKnownTime = currentTime;
-
     if (currentTime >= embed.start - 0.5 && hasRequestedSeek && !isPlaying) {
       requestPlay();
       retryPlay();
-    }
-
-    if (Number.isFinite(embed.end) && isPlaying && currentTime >= embed.end - 0.25) {
-      moveProfileViewer(1);
-      return;
-    }
-
-    if (Number.isFinite(embed.end) && !hasSyncedTimer && (isPlaying || hasAdvanced) && currentTime >= embed.start - 0.5) {
-      hasSyncedTimer = true;
-      scheduleProfileAutoNext(embed, currentTime);
     }
 
     if (currentTime < embed.start - 1 && Date.now() - lastSeekAt > 900 && seekRepairAttempts < 3) {
@@ -445,13 +466,21 @@ function primeProfileNiconicoPlayer(iframe, embed) {
   cleanupProfileNiconicoController();
   window.addEventListener("message", handleMessage);
   fallbackTimer = window.setTimeout(startPlayback, 1800);
+  startButtonTimer = window.setTimeout(() => {
+    if (!isPlaying && document.body.contains(iframe)) {
+      elements.startButton.hidden = false;
+    }
+  }, 2400);
 
   postProfileNiconicoCommand(iframe, embed.playerId, "volumeChange", { volume: embed.volume / 100 });
 
   profileNiconicoCleanup = () => {
     window.clearTimeout(fallbackTimer);
+    window.clearTimeout(startButtonTimer);
     window.clearInterval(playRetryTimer);
     window.removeEventListener("message", handleMessage);
+    elements.startButton.hidden = true;
+    elements.startButton.onclick = null;
   };
 }
 
@@ -510,6 +539,8 @@ function renderProfileViewer() {
   cleanupProfileNiconicoController();
   profileYouTubePlayer?.destroy?.();
   profileYouTubePlayer = null;
+  elements.startButton.hidden = true;
+  elements.startButton.onclick = null;
   elements.frameSlot.replaceChildren();
 
   if (!embed) {
