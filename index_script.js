@@ -509,12 +509,14 @@ artistCards.forEach((card) => {
   });
 
   icon?.addEventListener("click", (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (!mobileMenuQuery.matches) {
+      openArtistMenu(card);
       return;
     }
 
-    event.preventDefault();
-    event.stopPropagation();
     if (card.classList.contains("is-open")) {
       card.classList.remove("is-open");
     } else {
