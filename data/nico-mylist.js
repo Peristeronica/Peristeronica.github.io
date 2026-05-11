@@ -1,7 +1,7 @@
 window.NICO_MYLIST_DATA = {
-  "updatedAt": "2026-05-11T04:09:15.421Z",
+  "updatedAt": "2026-05-11T09:54:49.133Z",
   "source": "https://www.nicovideo.jp/user/61445526/mylist/78998106?rss=2.0",
-  "totalCount": 61,
+  "totalCount": 63,
   "videos": [
     {
       "id": "sm44478568",
@@ -429,6 +429,20 @@ window.NICO_MYLIST_DATA = {
       "url": "https://www.nicovideo.jp/watch/sm45859469?ref=rss_mylist_rss2.0",
       "pubDate": "Sat, 09 May 2026 06:33:39 +0900",
       "description": "\n<p class=\"nico-thumbnail\"><img alt=\"ポーシャー　ねるねるねるねCM\" src=\"https://nicovideo.cdn.nimg.jp/thumbnails/45859469/45859469.38808537\" width=\"94\" height=\"70\" border=\"0\"/></p>\n<p class=\"nico-description\">おお※【同人作品】です</p>\n<p class=\"nico-info\"><small><strong class=\"nico-info-length\">0:15</strong>｜<strong class=\"nico-info-date\">2026年01月21日 02：00：00</strong> 投稿</small></p>\n"
+    },
+    {
+      "id": "sm45354248",
+      "title": "あっくはしね～！",
+      "url": "https://www.nicovideo.jp/watch/sm45354248?ref=rss_mylist_rss2.0",
+      "pubDate": "Mon, 11 May 2026 16:13:20 +0900",
+      "description": "\n<p class=\"nico-thumbnail\"><img alt=\"あっくはしね～！\" src=\"https://nicovideo.cdn.nimg.jp/thumbnails/45354248/45354248.72673769\" width=\"94\" height=\"70\" border=\"0\"/></p>\n<p class=\"nico-description\">すっごーい！！悪は死ぬフレンズフレンズなんだね！</p>\n<p class=\"nico-info\"><small><strong class=\"nico-info-length\">0:05</strong>｜<strong class=\"nico-info-date\">2025年08月30日 21：56：04</strong> 投稿</small></p>\n"
+    },
+    {
+      "id": "sm45389226",
+      "title": "ババンバアンアンアン",
+      "url": "https://www.nicovideo.jp/watch/sm45389226?ref=rss_mylist_rss2.0",
+      "pubDate": "Mon, 11 May 2026 16:13:46 +0900",
+      "description": "\n<p class=\"nico-thumbnail\"><img alt=\"ババンバアンアンアン\" src=\"https://nicovideo.cdn.nimg.jp/thumbnails/45389226/45389226.56052781\" width=\"94\" height=\"70\" border=\"0\"/></p>\n<p class=\"nico-description\">【まじょなぞ・1問目】まのさばで一番お風呂が好きな子はだ～れだ？</p>\n<p class=\"nico-info\"><small><strong class=\"nico-info-length\">0:25</strong>｜<strong class=\"nico-info-date\">2025年09月10日 11：36：03</strong> 投稿</small></p>\n"
     }
   ]
 };
