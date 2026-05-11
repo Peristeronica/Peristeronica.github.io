@@ -716,7 +716,7 @@ a {
 
   .primary-nav {
     flex-wrap: nowrap;
-    gap: clamp(8px, 1.6vw, 14px);
+    gap: clamp(6px, 1.4vw, 10px);
     grid-row: 1;
     justify-content: flex-start;
     min-width: 0;
@@ -724,7 +724,15 @@ a {
   }
 
   .primary-nav a {
-    font-size: 0.66rem;
+    font-size: 0.62rem;
+    white-space: nowrap;
+  }
+
+  .primary-nav .nav-switch {
+    max-width: 82px;
+    overflow: hidden;
+    padding: 7px 8px;
+    text-overflow: ellipsis;
   }
 
   .brand-logo {
@@ -777,15 +785,24 @@ a {
 
   .primary-nav {
     flex-wrap: nowrap;
-    gap: clamp(8px, 1.8vw, 14px);
+    gap: clamp(6px, 1.4vw, 10px);
     grid-column: 1;
     grid-row: 1;
     justify-content: flex-start;
+    min-width: 0;
     row-gap: 0;
   }
 
   .primary-nav a {
-    font-size: 0.64rem;
+    font-size: 0.62rem;
+    white-space: nowrap;
+  }
+
+  .primary-nav .nav-switch {
+    max-width: 82px;
+    overflow: hidden;
+    padding: 7px 8px;
+    text-overflow: ellipsis;
   }
 
   .social-nav {
