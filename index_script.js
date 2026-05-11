@@ -18,6 +18,7 @@ let profileVideoContext = null;
 let profileViewerElements = null;
 let profileYouTubePlayer = null;
 let profileYouTubeApiPromise = null;
+let profileVideoStopTimer = 0;
 
 const profileTypeLabels = {
   Music: "Music",
@@ -174,6 +175,20 @@ function ensureProfileViewer() {
   return profileViewerElements;
 }
 
+function parseTimeToken(value) {
+  if (!value) {
+    return null;
+  }
+
+  const match = String(value).match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?/);
+
+  if (!match || !match[0]) {
+    return null;
+  }
+
+  return (Number(match[1]) || 0) * 3600 + (Number(match[2]) || 0) * 60 + (Number(match[3]) || 0);
+}
+
 function parseProfileVideoUrl(url) {
   let parsedUrl;
 
@@ -195,6 +210,7 @@ function parseProfileVideoUrl(url) {
     return {
       provider: "youtube",
       id: videoId,
+      start: parseTimeToken(parsedUrl.searchParams.get("t")),
     };
   }
 
@@ -205,6 +221,7 @@ function parseProfileVideoUrl(url) {
       return {
         provider: "niconico",
         id: match[1],
+        start: null,
       };
     }
   }
@@ -219,6 +236,10 @@ function buildProfileVideoEmbed(work) {
     return null;
   }
 
+  const playback = work.playback || {};
+  const start = Number.isFinite(playback.start) ? playback.start : video.start;
+  const end = Number.isFinite(playback.end) ? playback.end : null;
+
   if (video.provider === "youtube") {
     const params = new URLSearchParams({
       autoplay: "1",
@@ -231,9 +252,19 @@ function buildProfileVideoEmbed(work) {
       params.set("origin", location.origin);
     }
 
+    if (Number.isFinite(start)) {
+      params.set("start", String(start));
+    }
+
+    if (Number.isFinite(end)) {
+      params.set("end", String(end));
+    }
+
     return {
       provider: "youtube",
       src: `https://www.youtube.com/embed/${encodeURIComponent(video.id)}?${params.toString()}`,
+      start,
+      end,
       volume: 40,
     };
   }
@@ -248,6 +279,8 @@ function buildProfileVideoEmbed(work) {
     provider: "niconico",
     playerId,
     src: `https://embed.nicovideo.jp/watch/${encodeURIComponent(video.id)}?${params.toString()}`,
+    start,
+    end,
     volume: 65,
   };
 }
@@ -292,20 +325,7 @@ function postProfileNiconicoCommand(iframe, playerId, eventName, data = {}) {
 
 function primeProfilePlayer(iframe, embed) {
   if (embed.provider === "youtube") {
-    loadProfileYouTubeApi().then((YT) => {
-      if (!document.body.contains(iframe)) {
-        return;
-      }
-
-      profileYouTubePlayer = new YT.Player(iframe, {
-        events: {
-          onReady: (event) => {
-            event.target.setVolume(embed.volume);
-            event.target.playVideo();
-          },
-        },
-      });
-    });
+    setupProfileYouTubePlayer(iframe, embed);
     return;
   }
 
@@ -321,12 +341,88 @@ function primeProfilePlayer(iframe, embed) {
   }, 500);
 }
 
+function setupProfileYouTubePlayer(iframe, embed) {
+  loadProfileYouTubeApi().then((YT) => {
+    if (!document.body.contains(iframe)) {
+      return;
+    }
+
+    const shouldLoopRange = Number.isFinite(embed.start) && Number.isFinite(embed.end);
+
+    profileYouTubePlayer = new YT.Player(iframe, {
+      events: {
+        onReady: (event) => {
+          event.target.setVolume(embed.volume);
+
+          if (Number.isFinite(embed.start)) {
+            event.target.seekTo(embed.start, true);
+          }
+
+          event.target.playVideo();
+        },
+        onStateChange: (event) => {
+          if (!shouldLoopRange) {
+            return;
+          }
+
+          if (event.data === YT.PlayerState.PLAYING) {
+            scheduleProfileYouTubeRangeStop(event.target, embed);
+          }
+
+          if (event.data === YT.PlayerState.ENDED) {
+            resetProfileYouTubeRange(event.target, embed);
+          }
+        },
+      },
+    });
+  });
+}
+
+function scheduleProfileYouTubeRangeStop(player, embed) {
+  clearProfileVideoStopTimer();
+
+  let currentTime = embed.start;
+
+  try {
+    currentTime = player.getCurrentTime();
+  } catch {
+    currentTime = embed.start;
+  }
+
+  if (!Number.isFinite(currentTime) || currentTime < embed.start - 1 || currentTime >= embed.end - 0.25) {
+    player.seekTo(embed.start, true);
+    currentTime = embed.start;
+  }
+
+  profileVideoStopTimer = window.setTimeout(() => {
+    resetProfileYouTubeRange(player, embed);
+  }, Math.max(0, embed.end - currentTime) * 1000);
+}
+
+function resetProfileYouTubeRange(player, embed) {
+  clearProfileVideoStopTimer();
+  player.pauseVideo();
+  player.seekTo(embed.start, true);
+
+  window.setTimeout(() => {
+    player.pauseVideo();
+  }, 80);
+}
+
+function clearProfileVideoStopTimer() {
+  if (profileVideoStopTimer) {
+    window.clearTimeout(profileVideoStopTimer);
+    profileVideoStopTimer = 0;
+  }
+}
+
 function renderProfileViewer() {
   const elements = ensureProfileViewer();
   const { list, index } = profileVideoContext;
   const work = list[index];
   const embed = buildProfileVideoEmbed(work);
 
+  clearProfileVideoStopTimer();
   profileYouTubePlayer?.destroy?.();
   profileYouTubePlayer = null;
   elements.frameSlot.replaceChildren();
@@ -378,6 +474,7 @@ function moveProfileViewer(direction) {
 function closeProfileViewer() {
   const elements = ensureProfileViewer();
 
+  clearProfileVideoStopTimer();
   profileYouTubePlayer?.destroy?.();
   profileYouTubePlayer = null;
   profileVideoContext = null;
