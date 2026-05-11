@@ -234,6 +234,48 @@ a {
   width: 75%;
 }
 
+.type-1day-dtm .work-cover {
+  aspect-ratio: 1;
+  background: transparent;
+  box-shadow: none;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: visible;
+  width: 75%;
+}
+
+.work-cover-burst {
+  isolation: isolate;
+}
+
+.burst-frame {
+  background: #ece7df;
+  border: 1px solid rgba(17, 19, 24, 0.2);
+  box-shadow: 0 10px 24px rgba(17, 19, 24, 0.16);
+  display: block;
+  inset: 0;
+  overflow: hidden;
+  position: absolute;
+}
+
+.burst-frame-1 {
+  z-index: 3;
+}
+
+.burst-frame-2 {
+  transform: translateX(12%) scale(0.9);
+  z-index: 2;
+}
+
+.burst-frame-3 {
+  transform: translateX(24%) scale(0.8);
+  z-index: 1;
+}
+
+.work-cover-burst .work-tag {
+  z-index: 4;
+}
+
 .peristeronica-works-page .work-card::before {
   content: "";
   grid-area: 1 / 1;

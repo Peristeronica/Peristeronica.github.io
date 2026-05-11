@@ -11,17 +11,26 @@ const typeLabels = {
   Album: "Album",
   Game: "Game",
   Goods: "Goods",
-  "1day_DTM": "1day_DTM",
+  "1day_DTM": "1dayDTM",
   Illust: "Illust",
   "1day_Movie": "1day_Movie",
 };
 
 function sortByNewest(works) {
   return [...works].sort((a, b) => {
-    const aTime = Date.parse(a.date || "") || 0;
-    const bTime = Date.parse(b.date || "") || 0;
+    const aTime = Date.parse(getWorkDate(a)) || 0;
+    const bTime = Date.parse(getWorkDate(b)) || 0;
     return bTime - aTime;
   });
+}
+
+function getWorkDate(work) {
+  if (Array.isArray(work.collection) && work.collection.length) {
+    const newestItem = sortByNewest(work.collection)[0];
+    return newestItem?.date || work.date || "";
+  }
+
+  return work.date || "";
 }
 
 function typeClass(type) {
@@ -30,6 +39,61 @@ function typeClass(type) {
 
 function isVideoWork(work) {
   return work.type === "Music" && Boolean(work.url);
+}
+
+function isOneDayDtmCollection(work) {
+  return work.type === "1day_DTM" && Array.isArray(work.collection);
+}
+
+function getYouTubeThumbnail(url) {
+  const video = parseVideoUrl(url);
+
+  if (video?.provider !== "youtube") {
+    return "";
+  }
+
+  return `https://i.ytimg.com/vi/${encodeURIComponent(video.id)}/hqdefault.jpg`;
+}
+
+function createCoverImage(src) {
+  const image = document.createElement("img");
+  image.src = src;
+  image.alt = "";
+  return image;
+}
+
+function createWorkCover(work) {
+  const cover = document.createElement("figure");
+  cover.className = "work-cover";
+
+  if (isOneDayDtmCollection(work)) {
+    const burstItems = sortByNewest(work.collection)
+      .map((item) => item.cover || getYouTubeThumbnail(item.url))
+      .filter(Boolean)
+      .slice(0, 3);
+
+    cover.classList.add("work-cover-burst");
+
+    if (burstItems.length) {
+      burstItems.forEach((src, index) => {
+        const frame = document.createElement("span");
+        frame.className = `burst-frame burst-frame-${index + 1}`;
+        frame.append(createCoverImage(src));
+        cover.append(frame);
+      });
+    } else {
+      cover.append(createCoverImage(work.cover));
+    }
+  } else {
+    cover.append(createCoverImage(work.cover));
+  }
+
+  const tag = document.createElement("span");
+  tag.className = "work-tag";
+  tag.textContent = typeLabels[work.type] || work.type;
+  cover.append(tag);
+
+  return cover;
 }
 
 function createWorkCard(work, list, index) {
@@ -42,7 +106,15 @@ function createWorkCard(work, list, index) {
 
   if (work.collection) {
     wrapper.type = "button";
-    wrapper.addEventListener("click", () => openCollection(work));
+    wrapper.addEventListener("click", () => {
+      if (isOneDayDtmCollection(work)) {
+        const collectionVideos = sortByNewest(work.collection).filter((item) => item.url);
+        openVideoViewer(collectionVideos, 0);
+        return;
+      }
+
+      openCollection(work);
+    });
   } else if (shouldOpenVideo) {
     wrapper.type = "button";
     wrapper.addEventListener("click", () => openVideoViewer(list, index));
@@ -52,18 +124,7 @@ function createWorkCard(work, list, index) {
     wrapper.rel = "noreferrer";
   }
 
-  const cover = document.createElement("figure");
-  cover.className = "work-cover";
-
-  const image = document.createElement("img");
-  image.src = work.cover;
-  image.alt = "";
-  cover.append(image);
-
-  const tag = document.createElement("span");
-  tag.className = "work-tag";
-  tag.textContent = typeLabels[work.type] || work.type;
-  cover.append(tag);
+  const cover = createWorkCover(work);
 
   const body = document.createElement("div");
   body.className = "work-body";
@@ -82,9 +143,10 @@ function createWorkCard(work, list, index) {
   role.textContent = work.role || "";
   body.append(role);
 
+  const workDate = getWorkDate(work);
   const date = document.createElement("time");
-  date.dateTime = work.date;
-  date.textContent = work.date;
+  date.dateTime = workDate;
+  date.textContent = workDate;
   body.append(date);
 
   wrapper.append(cover, body);
@@ -257,7 +319,7 @@ function buildVideoEmbed(work) {
       src: `https://www.youtube.com/embed/${encodeURIComponent(video.id)}?${params.toString()}`,
       start,
       end,
-      volume: 40,
+      volume: Number.isFinite(work.volume) ? work.volume : 40,
     };
   }
 
@@ -273,7 +335,7 @@ function buildVideoEmbed(work) {
     src: `https://embed.nicovideo.jp/watch/${encodeURIComponent(video.id)}?${params.toString()}`,
     start,
     end,
-    volume: 65,
+    volume: Number.isFinite(work.volume) ? work.volume : 65,
   };
 }
 
