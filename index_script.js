@@ -35,14 +35,37 @@ const caffeinaFeaturedCovers = [
   "./Caffeina_Baien_thumb.jpg",
 ];
 
+const peristeronicaFeaturedCovers = [
+  "./Peristeronica_Rapid_thumb.jpg",
+  "./Peristeronica_Choudai_thumb.jpg",
+  "./Peristeronica_Tsuyu_thumb.jpg",
+];
+
 function profileTypeClass(type) {
   return `type-${String(type).toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
 }
 
-function getCaffeinaFeaturedWorks() {
-  const works = window.siteWorks?.caffeina || [];
+function flattenWorks(source) {
+  if (Array.isArray(source)) {
+    return source;
+  }
 
-  return caffeinaFeaturedCovers
+  if (!source || typeof source !== "object") {
+    return [];
+  }
+
+  return Object.values(source).flatMap((value) => (Array.isArray(value) ? value : []));
+}
+
+function getFeaturedWorks(owner) {
+  const source = window.siteWorks?.[owner];
+  const works = flattenWorks(source);
+  const coversByOwner = {
+    caffeina: caffeinaFeaturedCovers,
+    peristeronica: peristeronicaFeaturedCovers,
+  };
+
+  return (coversByOwner[owner] || [])
     .map((cover) => works.find((work) => work.cover === cover))
     .filter(Boolean);
 }
@@ -50,6 +73,9 @@ function getCaffeinaFeaturedWorks() {
 function createProfileWorkCard(work, list, index) {
   const card = document.createElement("button");
   card.className = `profile-work-card ${profileTypeClass(work.type)}`;
+  if (work.aspect) {
+    card.classList.add(`aspect-${work.aspect}`);
+  }
   card.type = "button";
   card.addEventListener("click", () => openProfileViewer(list, index));
 
@@ -82,14 +108,13 @@ function createProfileWorkCard(work, list, index) {
 }
 
 function renderProfileWorks() {
-  const container = document.querySelector('[data-featured-works="caffeina"]');
+  const containers = [...document.querySelectorAll("[data-featured-works]")];
 
-  if (!container) {
-    return;
-  }
-
-  const works = getCaffeinaFeaturedWorks();
-  container.replaceChildren(...works.map((work, index) => createProfileWorkCard(work, works, index)));
+  containers.forEach((container) => {
+    const owner = container.dataset.featuredWorks;
+    const works = getFeaturedWorks(owner);
+    container.replaceChildren(...works.map((work, index) => createProfileWorkCard(work, works, index)));
+  });
 }
 
 function ensureProfileViewer() {
