@@ -183,9 +183,8 @@ window.siteWorks = {
         role: "企画, 共同運営, 一次楽曲制作",
         date: "2025-05-21",
         type: "Music",
-        aspect: "square",
         playback: { start: 1294, end: 1436 },
-        cover: "./Peristeronica_Rhapsody_thumb.jpg",
+        cover: "./Peristeronica_Rhapsody_thumb.png",
         url: "https://youtu.be/69_7AFYwrMk?t=1299&si=bYtLpt83WL3vl8D4",
       },
       {

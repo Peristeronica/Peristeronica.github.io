@@ -12,7 +12,7 @@ const konamiCode = [
 ];
 
 let konamiIndex = 0;
-const mobileMenuQuery = window.matchMedia("(max-width: 820px)");
+const touchMenuQuery = window.matchMedia("(hover: none)");
 const artistCards = [...document.querySelectorAll(".artist-card")];
 let profileVideoContext = null;
 let profileViewerElements = null;
@@ -497,11 +497,15 @@ function closeArtistMenus(exceptCard) {
   });
 }
 
+function usesTouchArtistMenu() {
+  return touchMenuQuery.matches;
+}
+
 artistCards.forEach((card) => {
   const icon = card.querySelector(".artist-icon");
 
   icon?.addEventListener("mouseenter", () => {
-    if (mobileMenuQuery.matches) {
+    if (usesTouchArtistMenu()) {
       return;
     }
 
@@ -512,7 +516,7 @@ artistCards.forEach((card) => {
     event.preventDefault();
     event.stopPropagation();
 
-    if (!mobileMenuQuery.matches) {
+    if (!usesTouchArtistMenu()) {
       openArtistMenu(card);
       return;
     }
@@ -525,7 +529,7 @@ artistCards.forEach((card) => {
   });
 
   card.addEventListener("mouseleave", () => {
-    if (mobileMenuQuery.matches) {
+    if (usesTouchArtistMenu()) {
       return;
     }
 
@@ -534,7 +538,7 @@ artistCards.forEach((card) => {
 });
 
 document.addEventListener("click", (event) => {
-  if (!mobileMenuQuery.matches || event.target.closest(".artist-card")) {
+  if (!usesTouchArtistMenu() || event.target.closest(".artist-card")) {
     return;
   }
 
