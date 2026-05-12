@@ -644,6 +644,10 @@ a {
   --profile-viewer-gap: clamp(8px, 1.8vw, 24px);
   --profile-viewer-padding: clamp(16px, 3.4vw, 42px);
   --profile-viewer-arrow-width: clamp(42px, 5vw, 70px);
+  --profile-viewer-arrow-height: 48px;
+  --profile-viewer-close-gap: 10px;
+  --profile-viewer-close-size: 42px;
+  --profile-viewer-close-space: 0px;
   --profile-video-width: min(
     1360px,
     calc(100vw - (var(--profile-viewer-padding) * 2) - (var(--profile-viewer-arrow-width) * 2) - (var(--profile-viewer-gap) * 2)),
@@ -651,6 +655,7 @@ a {
   );
   --profile-video-height: calc(var(--profile-video-width) * 9 / 16);
   align-items: center;
+  align-content: center;
   background: rgba(17, 19, 24, 0.78);
   display: none;
   gap: var(--profile-viewer-gap);
@@ -706,13 +711,13 @@ a {
   color: var(--ink);
   cursor: pointer;
   font-size: 1.5rem;
-  height: 42px;
+  height: var(--profile-viewer-close-size);
   line-height: 1;
   position: absolute;
   right: 0;
   top: 0;
   transform: translate(50%, -50%);
-  width: 42px;
+  width: var(--profile-viewer-close-size);
   z-index: 1;
 }
 
@@ -741,11 +746,11 @@ a {
 
 @media (max-aspect-ratio: 4 / 3) {
   .profile-viewer {
-    --profile-viewer-arrow-height: 48px;
+    --profile-viewer-close-space: calc(var(--profile-viewer-close-size) + var(--profile-viewer-close-gap));
     --profile-video-width: min(
       1360px,
       calc(100vw - (var(--profile-viewer-padding) * 2)),
-      calc((100svh - (var(--profile-viewer-padding) * 2) - var(--profile-viewer-arrow-height) - var(--profile-viewer-gap)) * 16 / 9)
+      calc((100svh - (var(--profile-viewer-padding) * 2) - var(--profile-viewer-arrow-height) - var(--profile-viewer-gap) - (var(--profile-viewer-close-space) * 2)) * 16 / 9)
     );
     flex-wrap: wrap;
   }
@@ -760,6 +765,12 @@ a {
     flex: 1 1 calc(50% - var(--profile-viewer-gap));
     height: var(--profile-viewer-arrow-height);
     order: 2;
+  }
+
+  .profile-viewer-close {
+    right: 0;
+    top: calc(-1 * var(--profile-viewer-close-space));
+    transform: none;
   }
 }
 
@@ -852,9 +863,6 @@ a {
 
   .profile-viewer-close {
     height: 36px;
-    right: 8px;
-    top: 8px;
-    transform: none;
     width: 36px;
   }
 
@@ -1005,6 +1013,12 @@ a {
     flex-basis: var(--profile-viewer-arrow-width);
   }
 
+}
+
+@media (max-width: 560px) and (max-aspect-ratio: 4 / 3) {
+  .profile-viewer-arrow {
+    flex: 1 1 calc(50% - var(--profile-viewer-gap));
+  }
 }
 
 @media (max-width: 820px) and (orientation: landscape) {

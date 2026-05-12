@@ -30,6 +30,11 @@ const profileTypeLabels = {
   "1day_Movie": "1day_Movie",
 };
 
+const profileViewerButtonLabels = {
+  previous: "新しい作品へ",
+  next: "古い作品へ",
+};
+
 const caffeinaFeaturedCovers = [
   "./Caffeina_Natsukaze_thumb.jpg",
   "./Caffeina_Uminari_thumb.jpg",
@@ -132,7 +137,8 @@ function ensureProfileViewer() {
   const leftButton = document.createElement("button");
   leftButton.className = "profile-viewer-arrow profile-viewer-arrow-left";
   leftButton.type = "button";
-  leftButton.setAttribute("aria-label", "前の主な作品へ");
+  leftButton.setAttribute("aria-label", profileViewerButtonLabels.previous);
+  leftButton.title = profileViewerButtonLabels.previous;
   leftButton.textContent = "<";
 
   const panel = document.createElement("div");
@@ -152,7 +158,8 @@ function ensureProfileViewer() {
   const rightButton = document.createElement("button");
   rightButton.className = "profile-viewer-arrow profile-viewer-arrow-right";
   rightButton.type = "button";
-  rightButton.setAttribute("aria-label", "次の主な作品へ");
+  rightButton.setAttribute("aria-label", profileViewerButtonLabels.next);
+  rightButton.title = profileViewerButtonLabels.next;
   rightButton.textContent = ">";
 
   viewer.append(leftButton, panel, rightButton);

@@ -5,6 +5,14 @@ let activeVideoStopTimer = 0;
 let activeYouTubePlayer = null;
 let videoViewerElements = null;
 let youtubeApiPromise = null;
+let oneDayDtmLastIndex = 0;
+
+const viewerButtonLabels = {
+  first: "最新の作品へ",
+  previous: "新しい作品へ",
+  next: "古い作品へ",
+  last: "最も古い作品へ",
+};
 
 const typeLabels = {
   Music: "Music",
@@ -15,6 +23,21 @@ const typeLabels = {
   Illust: "Illust",
   "1day_Movie": "1day_Movie",
 };
+
+function applyPixivIllustData() {
+  const pixivIllustData = window.pixivIllustData;
+  const peristeronicaOther = worksData?.peristeronica?.other;
+
+  if (!pixivIllustData || !Array.isArray(peristeronicaOther)) {
+    return;
+  }
+
+  const illustWork = peristeronicaOther.find((work) => work.type === "Illust");
+
+  if (illustWork) {
+    Object.assign(illustWork, pixivIllustData);
+  }
+}
 
 function sortByNewest(works) {
   return [...works].sort((a, b) => {
@@ -45,6 +68,10 @@ function isOneDayDtmCollection(work) {
   return work.type === "1day_DTM" && Array.isArray(work.collection);
 }
 
+function usesBurstCover(work) {
+  return (work.coverLayout === "burst" || isOneDayDtmCollection(work)) && Array.isArray(work.collection);
+}
+
 function getYouTubeThumbnail(url) {
   const video = parseVideoUrl(url);
 
@@ -65,8 +92,11 @@ function createCoverImage(src) {
 function createWorkCover(work) {
   const cover = document.createElement("figure");
   cover.className = "work-cover";
+  if (work.hoverLabel) {
+    cover.title = work.hoverLabel;
+  }
 
-  if (isOneDayDtmCollection(work)) {
+  if (usesBurstCover(work)) {
     const burstItems = sortByNewest(work.collection)
       .map((item) => item.cover || getYouTubeThumbnail(item.url))
       .filter(Boolean)
@@ -98,18 +128,35 @@ function createWorkCover(work) {
 
 function createWorkCard(work, list, index) {
   const shouldOpenVideo = isVideoWork(work);
-  const wrapper = document.createElement(work.collection || shouldOpenVideo ? "button" : work.url ? "a" : "article");
+  const opensExternal = Boolean(work.openExternal && work.url);
+  const tagName = opensExternal || (!work.collection && work.url && !shouldOpenVideo)
+    ? "a"
+    : work.collection || shouldOpenVideo
+      ? "button"
+      : "article";
+  const wrapper = document.createElement(tagName);
   wrapper.className = `work-card ${typeClass(work.type)}`;
   if (work.aspect) {
     wrapper.classList.add(`aspect-${work.aspect}`);
   }
 
-  if (work.collection) {
+  if (opensExternal) {
+    wrapper.href = work.url;
+    wrapper.target = work.externalTarget || "_blank";
+    if (work.externalTarget) {
+      wrapper.referrerPolicy = "no-referrer";
+    } else {
+      wrapper.rel = "noreferrer";
+    }
+    wrapper.title = work.hoverLabel || "";
+    wrapper.setAttribute("aria-label", `${work.title} ${work.hoverLabel || ""}`.trim());
+  } else if (work.collection) {
     wrapper.type = "button";
     wrapper.addEventListener("click", () => {
       if (isOneDayDtmCollection(work)) {
         const collectionVideos = sortByNewest(work.collection).filter((item) => item.url);
-        openVideoViewer(collectionVideos, 0);
+        const index = Math.min(oneDayDtmLastIndex, collectionVideos.length - 1);
+        openVideoViewer(collectionVideos, index, { hasJumps: true, rememberOneDayDtm: true, wrap: true });
         return;
       }
 
@@ -131,6 +178,12 @@ function createWorkCard(work, list, index) {
 
   const title = document.createElement("h3");
   title.textContent = work.title;
+  if (work.externalIcon) {
+    const icon = document.createElement("span");
+    icon.className = "external-link-icon";
+    icon.setAttribute("aria-hidden", "true");
+    title.append(" ", icon);
+  }
   body.append(title);
 
   const description = document.createElement("p");
@@ -152,6 +205,8 @@ function createWorkCard(work, list, index) {
   wrapper.append(cover, body);
   return wrapper;
 }
+
+applyPixivIllustData();
 
 function renderWorks(selector, works) {
   const container = document.querySelector(selector);
@@ -184,8 +239,20 @@ function ensureVideoViewer() {
   const leftButton = document.createElement("button");
   leftButton.className = "video-viewer-arrow video-viewer-arrow-left";
   leftButton.type = "button";
-  leftButton.setAttribute("aria-label", "新しい作品へ");
+  leftButton.setAttribute("aria-label", viewerButtonLabels.previous);
+  leftButton.title = viewerButtonLabels.previous;
   leftButton.textContent = "<";
+
+  const leftJumpButton = document.createElement("button");
+  leftJumpButton.className = "video-viewer-jump video-viewer-jump-first";
+  leftJumpButton.type = "button";
+  leftJumpButton.setAttribute("aria-label", viewerButtonLabels.first);
+  leftJumpButton.title = viewerButtonLabels.first;
+  leftJumpButton.textContent = "<<";
+
+  const leftControls = document.createElement("div");
+  leftControls.className = "video-viewer-controls video-viewer-controls-left";
+  leftControls.append(leftButton, leftJumpButton);
 
   const panel = document.createElement("div");
   panel.className = "video-viewer-panel";
@@ -204,10 +271,22 @@ function ensureVideoViewer() {
   const rightButton = document.createElement("button");
   rightButton.className = "video-viewer-arrow video-viewer-arrow-right";
   rightButton.type = "button";
-  rightButton.setAttribute("aria-label", "古い作品へ");
+  rightButton.setAttribute("aria-label", viewerButtonLabels.next);
+  rightButton.title = viewerButtonLabels.next;
   rightButton.textContent = ">";
 
-  viewer.append(leftButton, panel, rightButton);
+  const rightJumpButton = document.createElement("button");
+  rightJumpButton.className = "video-viewer-jump video-viewer-jump-last";
+  rightJumpButton.type = "button";
+  rightJumpButton.setAttribute("aria-label", viewerButtonLabels.last);
+  rightJumpButton.title = viewerButtonLabels.last;
+  rightJumpButton.textContent = ">>";
+
+  const rightControls = document.createElement("div");
+  rightControls.className = "video-viewer-controls video-viewer-controls-right";
+  rightControls.append(rightButton, rightJumpButton);
+
+  viewer.append(leftControls, panel, rightControls);
   document.body.append(viewer);
 
   viewer.addEventListener("click", (event) => {
@@ -218,11 +297,15 @@ function ensureVideoViewer() {
   closeButton.addEventListener("click", closeVideoViewer);
   leftButton.addEventListener("click", () => moveVideoViewer(-1));
   rightButton.addEventListener("click", () => moveVideoViewer(1));
+  leftJumpButton.addEventListener("click", () => jumpVideoViewer(0));
+  rightJumpButton.addEventListener("click", () => jumpVideoViewer("last"));
 
   videoViewerElements = {
     viewer,
     leftButton,
     rightButton,
+    leftJumpButton,
+    rightJumpButton,
     frameSlot,
   };
 
@@ -473,6 +556,11 @@ function clearVideoStopTimer() {
   }
 }
 
+function setViewerButtonDisabled(button, isDisabled) {
+  button.setAttribute("aria-disabled", String(isDisabled));
+  button.classList.toggle("is-disabled", isDisabled);
+}
+
 function renderVideoViewer() {
   const elements = ensureVideoViewer();
   const { list, index } = activeVideoContext;
@@ -484,8 +572,19 @@ function renderVideoViewer() {
   activeYouTubePlayer = null;
   elements.frameSlot.replaceChildren();
 
-  elements.leftButton.hidden = index <= 0;
-  elements.rightButton.hidden = index >= list.length - 1;
+  const lastIndex = list.length - 1;
+  const canWrap = Boolean(activeVideoContext.wrap);
+  const hasJumpControls = Boolean(activeVideoContext.hasJumps);
+
+  elements.viewer.classList.toggle("has-jump-controls", hasJumpControls);
+  setViewerButtonDisabled(elements.leftButton, !canWrap && index <= 0);
+  setViewerButtonDisabled(elements.rightButton, !canWrap && index >= lastIndex);
+  setViewerButtonDisabled(elements.leftJumpButton, !hasJumpControls || index <= 0);
+  setViewerButtonDisabled(elements.rightJumpButton, !hasJumpControls || index >= lastIndex);
+
+  if (activeVideoContext.rememberOneDayDtm) {
+    oneDayDtmLastIndex = index;
+  }
 
   if (!embed) {
     const fallback = document.createElement("a");
@@ -507,12 +606,18 @@ function renderVideoViewer() {
   elements.frameSlot.append(iframe);
 }
 
-function openVideoViewer(list, index) {
+function openVideoViewer(list, index, options = {}) {
   if (!list.length || index < 0) {
     return;
   }
 
-  activeVideoContext = { list, index };
+  activeVideoContext = {
+    list,
+    index: Math.min(index, list.length - 1),
+    hasJumps: Boolean(options.hasJumps),
+    rememberOneDayDtm: Boolean(options.rememberOneDayDtm),
+    wrap: Boolean(options.wrap),
+  };
   const elements = ensureVideoViewer();
   renderVideoViewer();
   elements.viewer.classList.add("is-open");
@@ -525,9 +630,29 @@ function moveVideoViewer(direction) {
     return;
   }
 
-  const nextIndex = activeVideoContext.index + direction;
+  const { list, wrap } = activeVideoContext;
+  let nextIndex = activeVideoContext.index + direction;
 
-  if (nextIndex < 0 || nextIndex >= activeVideoContext.list.length) {
+  if (nextIndex < 0 || nextIndex >= list.length) {
+    if (!wrap) {
+      return;
+    }
+
+    nextIndex = (nextIndex + list.length) % list.length;
+  }
+
+  activeVideoContext = { ...activeVideoContext, index: nextIndex };
+  renderVideoViewer();
+}
+
+function jumpVideoViewer(target) {
+  if (!activeVideoContext?.hasJumps) {
+    return;
+  }
+
+  const nextIndex = target === "last" ? activeVideoContext.list.length - 1 : target;
+
+  if (nextIndex === activeVideoContext.index) {
     return;
   }
 
