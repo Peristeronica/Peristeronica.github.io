@@ -1,4 +1,4 @@
-window.siteWorks = {
+﻿window.siteWorks = {
   caffeina: [
     {
       title: "i ft.初音ミク",
@@ -210,7 +210,7 @@ window.siteWorks = {
       {
         title: "1dayDTM",
         description: "短時間で制作した楽曲のまとめ",
-        role: "企画運営, 楽曲制作",
+        role: "企画, 一部運営, 楽曲制作",
         date: "2026-01-30",
         type: "1day_DTM",
         cover: "./Peristeronica_icon.png",
@@ -218,7 +218,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2026.01.30",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2026-01-30",
             playback: { start: 0, end: 102 },
             url: "https://youtu.be/0odikuTeieo?t=0",
@@ -226,7 +226,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2025.11.23",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2025-11-23",
             playback: { start: 0, end: 105 },
             url: "https://youtu.be/W1j5mxy6Csg?t=0",
@@ -234,7 +234,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2025.06.08",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2025-06-08",
             playback: { start: 0, end: 76 },
             volume: 100,
@@ -243,7 +243,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2024.08.28",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2024-08-28",
             playback: { start: 0, end: 43 },
             url: "https://youtu.be/fkrQy7OTfyM?t=0",
@@ -251,7 +251,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2024.07.28",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2024-07-28",
             playback: { start: 0, end: 56 },
             url: "https://youtu.be/Usa6yEhjRmA?t=0",
@@ -259,7 +259,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2024.05.26",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2024-05-26",
             playback: { start: 71, end: 128 },
             url: "https://youtu.be/yLOwUF7ljuM?t=71",
@@ -267,7 +267,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2023.12.24",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2023-12-24",
             playback: { start: 492, end: 611 },
             url: "https://youtu.be/NXFP0sCr54I?t=490",
@@ -275,7 +275,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2023.11.29",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2023-11-29",
             playback: { start: 163, end: 223 },
             url: "https://youtu.be/oLaTlDL38-A?t=162",
@@ -283,7 +283,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2023.10.15",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2023-10-15",
             playback: { start: 182, end: 237 },
             url: "https://youtu.be/1dU264O9tvU?t=182",
@@ -291,7 +291,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2023.09.21",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2023-09-21",
             playback: { start: 166, end: 211 },
             url: "https://youtu.be/_9Ja5a3W8IQ?t=165",
@@ -299,7 +299,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2023.06.25",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2023-06-25",
             playback: { start: 457, end: 510 },
             url: "https://youtu.be/FRsiRzqyzb4?t=458",
@@ -307,7 +307,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2023.05.14",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2023-05-14",
             playback: { start: 175, end: 250 },
             url: "https://youtu.be/J4r3jj2pRJ4?t=175",
@@ -315,7 +315,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2023.04.23",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2023-04-23",
             playback: { start: 50, end: 147 },
             url: "https://youtu.be/1n7lWIxqpkY?t=50",
@@ -323,7 +323,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2023.03.21",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2023-03-21",
             playback: { start: 142, end: 218 },
             url: "https://youtu.be/Oy-0WBAC7PE?t=142",
@@ -331,7 +331,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2023.02.26",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2023-02-26",
             playback: { start: 0, end: 53 },
             url: "https://youtu.be/a_XFjF-CYCA?t=0",
@@ -339,7 +339,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2023.02.12",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2023-02-12",
             playback: { start: 0, end: 63 },
             url: "https://youtu.be/xgaW8OHHHD8?t=0",
@@ -347,7 +347,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2023.01.26 / 252s",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2023-01-26",
             playback: { start: 252, end: 375 },
             url: "https://youtu.be/PBIEdVYdPTg?t=252",
@@ -355,7 +355,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2023.01.26 / 72s",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2023-01-26",
             playback: { start: 72, end: 157 },
             url: "https://youtu.be/PBIEdVYdPTg?t=72",
@@ -363,7 +363,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2022.12.30 / 308s",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2022-12-30",
             playback: { start: 308, end: 412 },
             url: "https://youtu.be/vIQwCGCIF_w?t=308",
@@ -371,7 +371,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2022.12.30 / 0s",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2022-12-30",
             playback: { start: 0, end: 107 },
             url: "https://youtu.be/vIQwCGCIF_w?t=0",
@@ -379,7 +379,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2022.08.12 / 286s",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2022-08-12",
             playback: { start: 286, end: 339 },
             url: "https://youtu.be/NVDwCt6Tl2I?t=286",
@@ -387,7 +387,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2022.08.12 / 203s",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2022-08-12",
             playback: { start: 203, end: 286 },
             url: "https://youtu.be/NVDwCt6Tl2I?t=203",
@@ -395,7 +395,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2022.07.29",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2022-07-29",
             playback: { start: 9, end: 67 },
             url: "https://youtu.be/NVDwCt6Tl2I?t=9",
@@ -403,7 +403,7 @@ window.siteWorks = {
           {
             title: "1dayDTM 2022.07.12",
             description: "短時間で制作した楽曲",
-            role: "企画運営, 楽曲制作",
+            role: "企画, 一部運営, 楽曲制作",
             date: "2022-07-12",
             playback: { start: 94, end: 134 },
             url: "https://youtu.be/rB9OaKqgStg?t=94",
