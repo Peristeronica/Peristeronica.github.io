@@ -138,9 +138,8 @@
         role: "企画, 運営, 一次楽曲制作",
         date: "2024-05-20",
         type: "Music",
-        aspect: "square",
         playback: { start: 972, end: 1103 },
-        cover: "./Peristeronica_Chiheisen_thumb.jpg",
+        cover: "./Peristeronica_Chiheisen_thumb.png",
         url: "https://youtu.be/qwLuP_dGzGM?t=972&si=UT7XA4kmw4a5g29Z",
       },
       {
@@ -159,9 +158,8 @@
         role: "企画, 運営, 二次楽曲制作",
         date: "2024-11-07",
         type: "Music",
-        aspect: "square",
         playback: { start: 5, end: 144 },
-        cover: "./Peristeronica_Choudai_thumb.jpg",
+        cover: "./Peristeronica_Choudai_thumb.png",
         url: "https://youtu.be/nykxaC50U1s?t=5&si=zOyMJDUZ98Fymfk8",
       },
       {
@@ -170,9 +168,8 @@
         role: "企画, 共同運営, 二次楽曲制作",
         date: "2025-05-22",
         type: "Music",
-        aspect: "square",
         playback: { start: 4, end: 142 },
-        cover: "./Peristeronica_BoostGirl_thumb.jpg",
+        cover: "./Peristeronica_BoostGirl_thumb.png",
         url: "https://youtu.be/69_7AFYwrMk?t=8&si=iCSpf0Dr_OMSmXre",
       },
       {
@@ -191,9 +188,8 @@
         role: "企画, 共同運営, 二次楽曲制作",
         date: "2025-11-08",
         type: "Music",
-        aspect: "square",
         playback: { start: 395, end: 540 },
-        cover: "./Peristeronica_IF_thumb.jpg",
+        cover: "./Peristeronica_IF_thumb.png",
         url: "https://youtu.be/yzlxFDdrNls?t=402&si=-rHGx_6C8PJHugy7",
       },
       {
