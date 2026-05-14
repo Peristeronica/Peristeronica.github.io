@@ -43,8 +43,8 @@ const caffeinaFeaturedCovers = [
 
 const peristeronicaFeaturedCovers = [
   "./Peristeronica_Rapid_thumb.jpg",
-  "./Peristeronica_Choudai_thumb.jpg",
-  "./Peristeronica_Tsuyu_thumb.jpg",
+  "./Peristeronica_Choudai_thumb.png",
+  "./Peristeronica_Tsuyu_thumb.png",
 ];
 
 function profileTypeClass(type) {

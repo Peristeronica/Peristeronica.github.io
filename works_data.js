@@ -117,9 +117,8 @@
         role: "企画, 運営, 一次楽曲制作",
         date: "2023-11-03",
         type: "Music",
-        aspect: "square",
         playback: { start: 500, end: 642 },
-        cover: "./Peristeronica_Tsuyu_thumb.jpg",
+        cover: "./Peristeronica_Tsuyu_thumb.png",
         url: "https://youtu.be/9g332gWaVZY?t=500&si=eiB_aqg_e4crYNT8",
       },
       {
