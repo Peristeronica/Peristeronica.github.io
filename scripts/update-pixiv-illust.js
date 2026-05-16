@@ -6,6 +6,7 @@ const USER_ID = "31571512";
 const PIXIV_PAGE = `https://www.pixiv.net/users/${USER_ID}/illustrations`;
 const ROOT_DIR = path.resolve(__dirname, "..");
 const DATA_DIR = path.join(ROOT_DIR, "data");
+const IMAGE_DIR = path.join(ROOT_DIR, "assets", "images", "pixiv");
 const DETAIL_COUNT = 12;
 const IMAGE_EXTENSION = "webp";
 const WEBP_QUALITY = "82";
@@ -93,8 +94,8 @@ async function downloadImage(url, filename) {
   }
 
   const buffer = Buffer.from(await response.arrayBuffer());
-  const tempPath = path.join(DATA_DIR, `${filename}.source`);
-  const outputPath = path.join(DATA_DIR, filename);
+  const tempPath = path.join(IMAGE_DIR, `${filename}.source`);
+  const outputPath = path.join(IMAGE_DIR, filename);
 
   await fs.writeFile(tempPath, buffer);
 
@@ -157,7 +158,7 @@ function buildSiteData(works) {
     role: "イラスト制作",
     date: formatDate(works[0].createDate),
     type: "Illust",
-    cover: `/data/pixiv-illust-1.${IMAGE_EXTENSION}`,
+    cover: `/assets/images/pixiv/pixiv-illust-1.${IMAGE_EXTENSION}`,
     url: PIXIV_PAGE,
     openExternal: true,
     externalTarget: "pixiv-illust",
@@ -169,7 +170,7 @@ function buildSiteData(works) {
       description: "Pixiv illustration",
       role: "イラスト制作",
       date: formatDate(work.createDate),
-      cover: `/data/pixiv-illust-${index + 1}.${IMAGE_EXTENSION}`,
+      cover: `/assets/images/pixiv/pixiv-illust-${index + 1}.${IMAGE_EXTENSION}`,
       url: `https://www.pixiv.net/artworks/${work.id}`,
     })),
   };
@@ -177,6 +178,7 @@ function buildSiteData(works) {
 
 async function main() {
   await fs.mkdir(DATA_DIR, { recursive: true });
+  await fs.mkdir(IMAGE_DIR, { recursive: true });
 
   const works = await fetchLatestWorks();
 

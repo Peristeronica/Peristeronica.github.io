@@ -37,7 +37,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add data/nico-mylist.json data/nico-mylist.js data/pixiv-illust.js data/pixiv-illust-*.webp data/pixiv-illust-*.jpg
+          git add data/nico-mylist.json data/nico-mylist.js data/pixiv-illust.js assets/images/pixiv/pixiv-illust-*.webp
 
           if git diff --cached --quiet; then
             echo "No changes to commit"

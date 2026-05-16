@@ -1,17 +1,7 @@
-const konamiCode = [
-  "ArrowUp",
-  "ArrowUp",
-  "ArrowDown",
-  "ArrowDown",
-  "ArrowLeft",
-  "ArrowRight",
-  "ArrowLeft",
-  "ArrowRight",
-  "b",
-  "a",
-];
-
-let konamiIndex = 0;
+const keyTrail = [];
+const keyTrailLimit = 10;
+const keyTrailDigest = "87e6e5f8fd830371226f4e9185933bb4ebb79cd546f91e21a35bd55b5efb1a25";
+const gatedPayload = [168, 143, 139, 139, 148, 231, 102, 46, 75, 1, 42, 244, 253, 189, 83, 192, 134, 219];
 const touchMenuQuery = window.matchMedia("(hover: none)");
 const artistCards = [...document.querySelectorAll(".artist-card")];
 let profileVideoContext = null;
@@ -37,15 +27,15 @@ const profileViewerButtonLabels = {
 };
 
 const caffeinaFeaturedCovers = [
-  "/Caffeina_Natsukaze_thumb.webp",
-  "/Caffeina_Uminari_thumb.webp",
-  "/Caffeina_Baien_thumb.webp",
+  "/assets/images/works/Caffeina_Natsukaze_thumb.webp",
+  "/assets/images/works/Caffeina_Uminari_thumb.webp",
+  "/assets/images/works/Caffeina_Baien_thumb.webp",
 ];
 
 const peristeronicaFeaturedCovers = [
-  "/Peristeronica_Rapid_thumb.webp",
-  "/Peristeronica_Choudai_thumb.webp",
-  "/Peristeronica_Tsuyu_thumb.webp",
+  "/assets/images/works/Peristeronica_Rapid_thumb.webp",
+  "/assets/images/works/Peristeronica_Choudai_thumb.webp",
+  "/assets/images/works/Peristeronica_Tsuyu_thumb.webp",
 ];
 
 function profileTypeClass(type) {
@@ -249,28 +239,29 @@ function buildProfileVideoEmbed(work) {
   const end = Number.isFinite(playback.end) ? playback.end : null;
 
   if (video.provider === "youtube") {
-    const params = new URLSearchParams({
-      autoplay: "1",
-      playsinline: "1",
-      rel: "0",
-      enablejsapi: "1",
-    });
+    const playerVars = {
+      autoplay: 1,
+      playsinline: 1,
+      rel: 0,
+      enablejsapi: 1,
+    };
 
     if (location.origin && location.origin !== "null") {
-      params.set("origin", location.origin);
+      playerVars.origin = location.origin;
     }
 
     if (Number.isFinite(start)) {
-      params.set("start", String(start));
+      playerVars.start = start;
     }
 
     if (Number.isFinite(end)) {
-      params.set("end", String(end));
+      playerVars.end = end;
     }
 
     return {
       provider: "youtube",
-      src: `https://www.youtube.com/embed/${encodeURIComponent(video.id)}?${params.toString()}`,
+      videoId: video.id,
+      playerVars,
       start,
       end,
       volume: Number.isFinite(work.volume) ? work.volume : 40,
@@ -331,6 +322,28 @@ function postProfileNiconicoCommand(iframe, playerId, eventName, data = {}) {
   );
 }
 
+function applyProfileYouTubeVolume(player, embed) {
+  player.setVolume(embed.volume);
+
+  if (embed.volume > 0) {
+    player.unMute();
+  }
+}
+
+function syncProfileYouTubeVolume(player, embed, renderToken) {
+  let attempts = 0;
+  const timer = window.setInterval(() => {
+    attempts += 1;
+
+    if (renderToken !== profileViewerRenderToken || attempts > 10) {
+      window.clearInterval(timer);
+      return;
+    }
+
+    applyProfileYouTubeVolume(player, embed);
+  }, 200);
+}
+
 function primeProfilePlayer(iframe, embed, renderToken) {
   if (renderToken !== profileViewerRenderToken) {
     return;
@@ -359,22 +372,25 @@ function primeProfilePlayer(iframe, embed, renderToken) {
   }, 500);
 }
 
-function setupProfileYouTubePlayer(iframe, embed, renderToken) {
+function setupProfileYouTubePlayer(playerElement, embed, renderToken) {
   loadProfileYouTubeApi().then((YT) => {
-    if (renderToken !== profileViewerRenderToken || !document.body.contains(iframe)) {
+    if (renderToken !== profileViewerRenderToken || !document.body.contains(playerElement)) {
       return;
     }
 
     const shouldLoopRange = Number.isFinite(embed.start) && Number.isFinite(embed.end);
 
-    profileYouTubePlayer = new YT.Player(iframe, {
+    profileYouTubePlayer = new YT.Player(playerElement, {
+      videoId: embed.videoId,
+      playerVars: embed.playerVars,
       events: {
         onReady: (event) => {
           if (renderToken !== profileViewerRenderToken) {
             return;
           }
 
-          event.target.setVolume(embed.volume);
+          applyProfileYouTubeVolume(event.target, embed);
+          syncProfileYouTubeVolume(event.target, embed, renderToken);
 
           if (Number.isFinite(embed.start)) {
             event.target.seekTo(embed.start, true);
@@ -389,13 +405,15 @@ function setupProfileYouTubePlayer(iframe, embed, renderToken) {
 
           if (!shouldLoopRange) {
             if (event.data === YT.PlayerState.PLAYING) {
-              event.target.setVolume(embed.volume);
+              applyProfileYouTubeVolume(event.target, embed);
+              syncProfileYouTubeVolume(event.target, embed, renderToken);
             }
             return;
           }
 
           if (event.data === YT.PlayerState.PLAYING) {
-            event.target.setVolume(embed.volume);
+            applyProfileYouTubeVolume(event.target, embed);
+            syncProfileYouTubeVolume(event.target, embed, renderToken);
             scheduleProfileYouTubeRangeStop(event.target, embed);
           }
 
@@ -469,6 +487,14 @@ function renderProfileViewer() {
     return;
   }
 
+  if (embed.provider === "youtube") {
+    const playerElement = document.createElement("div");
+    playerElement.id = `profile-video-${Date.now()}`;
+    elements.frameSlot.append(playerElement);
+    setupProfileYouTubePlayer(playerElement, embed, renderToken);
+    return;
+  }
+
   const iframe = document.createElement("iframe");
   iframe.src = embed.src;
   iframe.title = work.title;
@@ -534,6 +560,48 @@ function usesTouchArtistMenu() {
   return touchMenuQuery.matches;
 }
 
+function bytesToHex(bytes) {
+  return [...bytes].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+async function digestText(value) {
+  const bytes = new TextEncoder().encode(value);
+  return new Uint8Array(await crypto.subtle.digest("SHA-256", bytes));
+}
+
+function decodePayload(key) {
+  const bytes = Uint8Array.from(gatedPayload, (byte, index) => byte ^ key[index % key.length]);
+  return new TextDecoder().decode(bytes);
+}
+
+async function handleKeyTrail(event) {
+  if (!window.crypto?.subtle) {
+    return;
+  }
+
+  const code = event.keyCode || event.which;
+
+  if (!Number.isFinite(code) || code <= 0) {
+    return;
+  }
+
+  keyTrail.push(code);
+
+  if (keyTrail.length > keyTrailLimit) {
+    keyTrail.shift();
+  }
+
+  if (keyTrail.length !== keyTrailLimit) {
+    return;
+  }
+
+  const digest = await digestText(keyTrail.join(","));
+
+  if (bytesToHex(digest) === keyTrailDigest) {
+    window.location.href = decodePayload(digest);
+  }
+}
+
 artistCards.forEach((card) => {
   const icon = card.querySelector(".artist-icon");
 
@@ -595,17 +663,7 @@ window.addEventListener("keydown", (event) => {
     return;
   }
 
-  const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
-
-  if (key === konamiCode[konamiIndex]) {
-    konamiIndex += 1;
-  } else {
-    konamiIndex = key === konamiCode[0] ? 1 : 0;
-  }
-
-  if (konamiIndex === konamiCode.length) {
-    window.location.href = "./inside_index.html";
-  }
+  void handleKeyTrail(event);
 });
 
 renderProfileWorks();

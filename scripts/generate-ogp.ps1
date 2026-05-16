@@ -3,9 +3,9 @@ $ErrorActionPreference = "Stop"
 Add-Type -AssemblyName System.Drawing
 
 $root = Resolve-Path (Join-Path $PSScriptRoot "..")
-$cafPath = Join-Path $root "Caffeina_LatestWork.png"
-$perPath = Join-Path $root "Peristeronica_LatestWork.jpg"
-$outputPath = Join-Path $root "ogp.png"
+$cafPath = Join-Path $root "assets/source-images/Caffeina_LatestWork.png"
+$perPath = Join-Path $root "assets/source-images/Peristeronica_LatestWork.jpg"
+$outputPath = Join-Path $root "assets/images/ogp.png"
 
 $width = 1200
 $height = 630

@@ -6,7 +6,7 @@
       role: "楽曲制作, 映像編集",
       date: "2022-01-12",
       type: "Music",
-      cover: "/Caffeina_I_thumb.webp",
+      cover: "/assets/images/works/Caffeina_I_thumb.webp",
       url: "https://www.nicovideo.jp/watch/sm39886223",
     },
     {
@@ -15,7 +15,7 @@
       role: "作詞曲・編曲, 映像編集",
       date: "2022-02-18",
       type: "Music",
-      cover: "/Caffeina_0gravity_thumb.webp",
+      cover: "/assets/images/works/Caffeina_0gravity_thumb.webp",
       url: "https://www.nicovideo.jp/watch/sm40040030",
     },
     {
@@ -24,7 +24,7 @@
       role: "作詞曲・編曲, 映像編集",
       date: "2022-08-31",
       type: "Music",
-      cover: "/Caffeina_Uminari_thumb.webp",
+      cover: "/assets/images/works/Caffeina_Uminari_thumb.webp",
       url: "https://www.nicovideo.jp/watch/sm41011733",
     },
     {
@@ -33,7 +33,7 @@
       role: "楽曲共作, 映像編集",
       date: "2023-05-01",
       type: "Music",
-      cover: "/Caffeina_Shunai_thumb.webp",
+      cover: "/assets/images/works/Caffeina_Shunai_thumb.webp",
       url: "https://www.nicovideo.jp/watch/sm42158269",
     },
     {
@@ -42,7 +42,7 @@
       role: "楽曲共作, 映像編集",
       date: "2023-08-04",
       type: "Music",
-      cover: "/Caffeina_Natsukaze_thumb.webp",
+      cover: "/assets/images/works/Caffeina_Natsukaze_thumb.webp",
       url: "https://www.nicovideo.jp/watch/sm42573094",
     },
     {
@@ -51,7 +51,7 @@
       role: "楽曲共作, 映像編集",
       date: "2025-11-21",
       type: "Music",
-      cover: "/Caffeina_Baien_thumb.webp",
+      cover: "/assets/images/works/Caffeina_Baien_thumb.webp",
       url: "https://www.nicovideo.jp/watch/so45520678",
     },
   ],
@@ -63,7 +63,7 @@
         role: "楽曲共作",
         date: "2025-11-21",
         type: "Music",
-        cover: "/Caffeina_Baien_thumb.webp",
+        cover: "/assets/images/works/Caffeina_Baien_thumb.webp",
         url: "https://www.nicovideo.jp/watch/so45520678",
       },
       {
@@ -72,7 +72,7 @@
         role: "企画, 楽曲制作",
         date: "2025-08-23",
         type: "Music",
-        cover: "/Peristeronica_Rapid_thumb.webp",
+        cover: "/assets/images/works/Peristeronica_Rapid_thumb.webp",
         url: "https://www.nicovideo.jp/watch/sm45323373",
       },
       {
@@ -81,7 +81,7 @@
         role: "Mix, Master",
         date: "2022-02-18",
         type: "Music",
-        cover: "/Caffeina_0gravity_thumb.webp",
+        cover: "/assets/images/works/Caffeina_0gravity_thumb.webp",
         url: "https://www.nicovideo.jp/watch/sm40040030",
       },
       {
@@ -90,7 +90,7 @@
         role: "Mix. Master",
         date: "2022-08-31",
         type: "Music",
-        cover: "/Caffeina_Uminari_thumb.webp",
+        cover: "/assets/images/works/Caffeina_Uminari_thumb.webp",
         url: "https://www.nicovideo.jp/watch/sm41011733",
       },
       {
@@ -99,7 +99,7 @@
         role: "楽曲共作",
         date: "2023-05-01",
         type: "Music",
-        cover: "/Caffeina_Shunai_thumb.webp",
+        cover: "/assets/images/works/Caffeina_Shunai_thumb.webp",
         url: "https://www.nicovideo.jp/watch/sm42158269",
       },
       {
@@ -108,7 +108,7 @@
         role: "楽曲共作",
         date: "2023-08-04",
         type: "Music",
-        cover: "/Caffeina_Natsukaze_thumb.webp",
+        cover: "/assets/images/works/Caffeina_Natsukaze_thumb.webp",
         url: "https://www.nicovideo.jp/watch/sm42573094",
       },
       {
@@ -118,7 +118,7 @@
         date: "2023-11-03",
         type: "Music",
         playback: { start: 500, end: 642 },
-        cover: "/Peristeronica_Tsuyu_thumb.webp",
+        cover: "/assets/images/works/Peristeronica_Tsuyu_thumb.webp",
         url: "https://youtu.be/9g332gWaVZY?t=500&si=eiB_aqg_e4crYNT8",
       },
       {
@@ -128,7 +128,7 @@
         date: "2023-11-04",
         type: "Music",
         playback: { start: 863, end: 967 },
-        cover: "/Peristeronica_NebulaReflection_thumb.webp",
+        cover: "/assets/images/works/Peristeronica_NebulaReflection_thumb.webp",
         url: "https://youtu.be/9g332gWaVZY?t=863&si=72gA1lKuLSuotzxo",
       },
       {
@@ -138,7 +138,7 @@
         date: "2024-05-20",
         type: "Music",
         playback: { start: 972, end: 1103 },
-        cover: "/Peristeronica_Chiheisen_thumb.webp",
+        cover: "/assets/images/works/Peristeronica_Chiheisen_thumb.webp",
         url: "https://youtu.be/qwLuP_dGzGM?t=972&si=UT7XA4kmw4a5g29Z",
       },
       {
@@ -148,7 +148,7 @@
         date: "2024-05-21",
         type: "Music",
         playback: { start: 8, end: 154 },
-        cover: "/Peristeronica_RainbowMidnight_thumb.webp",
+        cover: "/assets/images/works/Peristeronica_RainbowMidnight_thumb.webp",
         url: "https://youtu.be/qwLuP_dGzGM?t=8&si=pNBfkVxKQMCe9bdu",
       },
       {
@@ -158,7 +158,7 @@
         date: "2024-11-07",
         type: "Music",
         playback: { start: 5, end: 144 },
-        cover: "/Peristeronica_Choudai_thumb.webp",
+        cover: "/assets/images/works/Peristeronica_Choudai_thumb.webp",
         url: "https://youtu.be/nykxaC50U1s?t=5&si=zOyMJDUZ98Fymfk8",
       },
       {
@@ -168,7 +168,7 @@
         date: "2025-05-22",
         type: "Music",
         playback: { start: 4, end: 142 },
-        cover: "/Peristeronica_BoostGirl_thumb.webp",
+        cover: "/assets/images/works/Peristeronica_BoostGirl_thumb.webp",
         url: "https://youtu.be/69_7AFYwrMk?t=8&si=iCSpf0Dr_OMSmXre",
       },
       {
@@ -178,7 +178,7 @@
         date: "2025-05-21",
         type: "Music",
         playback: { start: 1294, end: 1436 },
-        cover: "/Peristeronica_Rhapsody_thumb.webp",
+        cover: "/assets/images/works/Peristeronica_Rhapsody_thumb.webp",
         url: "https://youtu.be/69_7AFYwrMk?t=1299&si=bYtLpt83WL3vl8D4",
       },
       {
@@ -188,7 +188,7 @@
         date: "2025-11-08",
         type: "Music",
         playback: { start: 395, end: 540 },
-        cover: "/Peristeronica_IF_thumb.webp",
+        cover: "/assets/images/works/Peristeronica_IF_thumb.webp",
         url: "https://youtu.be/yzlxFDdrNls?t=402&si=-rHGx_6C8PJHugy7",
       },
       {
@@ -197,7 +197,7 @@
         role: "企画, 作詞曲",
         date: "2026-02-23",
         type: "Music",
-        cover: "/Peristeronica_Nominal_thumb.webp",
+        cover: "/assets/images/works/Peristeronica_Nominal_thumb.webp",
         url: "https://www.nicovideo.jp/watch/sm45983873",
       },
     ],
@@ -208,7 +208,7 @@
         role: "企画, 一部運営, 楽曲制作",
         date: "2026-01-30",
         type: "1day_DTM",
-        cover: "/Peristeronica_icon.webp",
+        cover: "/assets/images/Peristeronica_icon.webp",
         collection: [
           {
             title: "1dayDTM 2026.01.30",
@@ -411,7 +411,7 @@
         role: "イラスト制作",
         date: "2026-04-06",
         type: "Illust",
-        cover: "/data/pixiv-illust-1.webp",
+        cover: "/assets/images/pixiv/pixiv-illust-1.webp",
         url: "https://www.pixiv.net/users/31571512/illustrations",
         openExternal: true,
         externalTarget: "pixiv-illust",
@@ -424,7 +424,7 @@
             description: "Pixiv illustration",
             role: "イラスト制作",
             date: "2026-04-06",
-            cover: "/data/pixiv-illust-1.webp",
+            cover: "/assets/images/pixiv/pixiv-illust-1.webp",
             url: "https://www.pixiv.net/artworks/143207919",
           },
           {
@@ -432,7 +432,7 @@
             description: "Pixiv illustration",
             role: "イラスト制作",
             date: "2026-01-24",
-            cover: "/data/pixiv-illust-2.webp",
+            cover: "/assets/images/pixiv/pixiv-illust-2.webp",
             url: "https://www.pixiv.net/artworks/140296622",
           },
           {
@@ -440,7 +440,7 @@
             description: "Pixiv illustration",
             role: "イラスト制作",
             date: "2025-12-16",
-            cover: "/data/pixiv-illust-3.webp",
+            cover: "/assets/images/pixiv/pixiv-illust-3.webp",
             url: "https://www.pixiv.net/artworks/138673132",
           },
         ],
@@ -451,14 +451,14 @@
         role: "Movie",
         date: "2026-05-09",
         type: "1day_Movie",
-        cover: "/Peristeronica_icon.webp",
+        cover: "/assets/images/Peristeronica_icon.webp",
         collection: [
           {
             title: "1day_Movie archive item",
             description: "短い映像をここに追加します。",
             role: "Movie",
             date: "2026-05-09",
-            cover: "/Peristeronica_LatestWork.webp",
+            cover: "/assets/images/works/Peristeronica_LatestWork.webp",
           },
         ],
       },
