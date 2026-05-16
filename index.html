@@ -8,20 +8,25 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Caffeina &amp; Peristeronica Official Site">
   <meta property="og:description" content="Caffeina &amp; Peristeronica, ボーカロイド楽曲制作を行う二人組。2022年からニコニコで活動。共作での楽曲, MV制作を行う。">
-  <meta property="og:url" content="https://peristeronica.github.io/">
-  <meta property="og:image" content="https://peristeronica.github.io/ogp.png">
+  <meta property="og:url" content="https://caffeina-peristeronica.com/">
+  <meta property="og:image" content="https://caffeina-peristeronica.com/ogp.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Caffeina &amp; Peristeronica">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Caffeina &amp; Peristeronica Official Site">
   <meta name="twitter:description" content="Caffeina &amp; Peristeronica, ボーカロイド楽曲制作を行う二人組。2022年からニコニコで活動。共作での楽曲, MV制作を行う。">
-  <meta name="twitter:image" content="https://peristeronica.github.io/ogp.png">
-  <link rel="icon" href="./Caffeina_icon.png" type="image/png">
+  <meta name="twitter:image" content="https://caffeina-peristeronica.com/ogp.png">
+  <link rel="canonical" href="https://caffeina-peristeronica.com/">
+  <link rel="icon" href="./Caffeina_icon.webp" type="image/webp">
   <link rel="stylesheet" href="./common.css">
   <link rel="stylesheet" href="./index_style.css">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-LHELWF3404"></script>
   <script>
+    if (location.protocol.startsWith("http") && location.pathname.endsWith("/index.html")) {
+      location.replace(`${location.pathname.slice(0, -"index.html".length)}${location.search}${location.hash}`);
+    }
+
     window.dataLayer = window.dataLayer || [];
     function gtag() {
       dataLayer.push(arguments);
@@ -38,7 +43,7 @@
       <a href="#about">ABOUT</a>
     </nav>
 
-    <a class="brand-logo" href="./index.html" aria-label="Caffeina and Peristeronica home">
+    <a class="brand-logo" href="/" aria-label="Caffeina and Peristeronica home">
       <span>Caffeina</span>
       <span>&amp;</span>
       <span>Peristeronica</span>
@@ -47,30 +52,30 @@
     <nav class="social-nav" aria-label="SNSリンク">
       <div class="social-group social-group-caffeina" aria-label="Caffeina SNS links">
         <span class="social-owner" title="Caffeina">
-          <img src="./Caffeina_icon.png" alt="Caffeina">
+          <img src="./Caffeina_icon.webp" alt="Caffeina">
         </span>
         <a class="social-link" href="https://x.com/caffeina_mono" target="_blank" rel="noreferrer" aria-label="Caffeina Twitter">
-          <img src="./twitter.png" alt="">
+          <img src="./twitter.webp" alt="">
         </a>
         <a class="social-link" href="https://www.nicovideo.jp/user/122509962/video?ref=pc_userpage_menu" target="_blank" rel="noreferrer" aria-label="Caffeina ニコニコ">
-          <img src="./niconico.png" alt="">
+          <img src="./niconico.webp" alt="">
         </a>
         <a class="social-link social-link-youtube" href="https://www.youtube.com/@caffeina5430" target="_blank" rel="noreferrer" aria-label="Caffeina YouTube">
-          <img src="./youtube.jpg" alt="">
+          <img src="./youtube.webp" alt="">
         </a>
       </div>
       <div class="social-group social-group-peristeronica" aria-label="Peristeronica SNS links">
         <span class="social-owner" title="Peristeronica">
-          <img src="./Peristeronica_icon.png" alt="Peristeronica">
+          <img src="./Peristeronica_icon.webp" alt="Peristeronica">
         </span>
         <a class="social-link" href="https://x.com/peristeronica" target="_blank" rel="noreferrer" aria-label="Peristeronica Twitter">
-          <img src="./twitter.png" alt="">
+          <img src="./twitter.webp" alt="">
         </a>
         <a class="social-link" href="https://www.nicovideo.jp/user/141299727/video?ref=pc_userpage_menu" target="_blank" rel="noreferrer" aria-label="Peristeronica ニコニコ">
-          <img src="./niconico.png" alt="">
+          <img src="./niconico.webp" alt="">
         </a>
         <a class="social-link social-link-youtube" href="https://www.youtube.com/@cafe_de_pigeon" target="_blank" rel="noreferrer" aria-label="Peristeronica YouTube">
-          <img src="./youtube.jpg" alt="">
+          <img src="./youtube.webp" alt="">
         </a>
       </div>
     </nav>
@@ -80,10 +85,10 @@
     <section class="home-hero" aria-label="Caffeina and Peristeronica latest works">
       <div class="latest-backdrop" aria-hidden="true">
         <figure class="latest-panel caf-panel">
-          <img src="./Caffeina_LatestWork.png" alt="">
+          <img src="./Caffeina_LatestWork.webp" alt="">
         </figure>
         <figure class="latest-panel per-panel">
-          <img src="./Peristeronica_LatestWork.jpg" alt="">
+          <img src="./Peristeronica_LatestWork.webp" alt="">
         </figure>
       </div>
 
@@ -91,11 +96,11 @@
         <article class="artist-card caf-card">
           <span class="artist-name">Caffeina</span>
           <a class="artist-icon" href="#caf-profile" aria-label="Caffeina menu">
-            <img src="./Caffeina_icon.png" alt="Caffeina icon">
+            <img src="./Caffeina_icon.webp" alt="Caffeina icon">
           </a>
           <div class="artist-actions">
-            <a href="./caffeina_works.html?viewer=%E5%A4%8F%E9%A2%A8%E9%82%AA%20ft.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF">LATEST WORK</a>
-            <a href="./caffeina_works.html">WORKS</a>
+            <a href="/caffeina_works/?viewer=%E5%A4%8F%E9%A2%A8%E9%82%AA%20ft.%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF">LATEST WORK</a>
+            <a href="/caffeina_works/">WORKS</a>
             <a href="#caf-profile">PROFILE</a>
           </div>
         </article>
@@ -103,11 +108,11 @@
         <article class="artist-card per-card">
           <span class="artist-name">Peristeronica</span>
           <a class="artist-icon" href="#per-profile" aria-label="Peristeronica menu">
-            <img src="./Peristeronica_icon.png" alt="Peristeronica icon">
+            <img src="./Peristeronica_icon.webp" alt="Peristeronica icon">
           </a>
           <div class="artist-actions">
-            <a href="./peristeronica_works.html?viewer=%E3%83%8E%E3%83%9F%E3%83%8A%E3%83%AB%20ft.LeuR">LATEST WORK</a>
-            <a href="./peristeronica_works.html">WORKS</a>
+            <a href="/peristeronica_works/?viewer=%E3%83%8E%E3%83%9F%E3%83%8A%E3%83%AB%20ft.LeuR">LATEST WORK</a>
+            <a href="/peristeronica_works/">WORKS</a>
             <a href="#per-profile">PROFILE</a>
           </div>
         </article>
@@ -134,7 +139,7 @@
     <section class="artist-profile-list" aria-label="アーティストプロフィール">
       <section class="artist-profile" id="caf-profile">
         <div class="profile-head">
-          <img class="profile-icon" src="./Caffeina_icon.png" alt="Caffeina icon">
+          <img class="profile-icon" src="./Caffeina_icon.webp" alt="Caffeina icon">
           <div>
             <p class="section-kicker">Caffeina</p>
             <h2>PROFILE</h2>
@@ -159,11 +164,11 @@
           <div class="profile-work-list" data-featured-works="caffeina"></div>
         </div>
 
-        <a class="profile-works-link" href="./caffeina_works.html">Caffeina WORKS</a>
+        <a class="profile-works-link" href="/caffeina_works/">Caffeina WORKS</a>
       </section>
       <section class="artist-profile" id="per-profile">
         <div class="profile-head">
-          <img class="profile-icon" src="./Peristeronica_icon.png" alt="Peristeronica icon">
+          <img class="profile-icon" src="./Peristeronica_icon.webp" alt="Peristeronica icon">
           <div>
             <p class="section-kicker">Peristeronica</p>
             <h2>PROFILE</h2>
@@ -191,7 +196,7 @@
           <div class="profile-work-list" data-featured-works="peristeronica"></div>
         </div>
 
-        <a class="profile-works-link" href="./peristeronica_works.html">Peristeronica WORKS</a>
+        <a class="profile-works-link" href="/peristeronica_works/">Peristeronica WORKS</a>
       </section>
     </section>
   </main>

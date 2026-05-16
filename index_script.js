@@ -19,6 +19,7 @@ let profileViewerElements = null;
 let profileYouTubePlayer = null;
 let profileYouTubeApiPromise = null;
 let profileVideoStopTimer = 0;
+let profileViewerRenderToken = 0;
 
 const profileTypeLabels = {
   Music: "Music",
@@ -36,15 +37,15 @@ const profileViewerButtonLabels = {
 };
 
 const caffeinaFeaturedCovers = [
-  "./Caffeina_Natsukaze_thumb.jpg",
-  "./Caffeina_Uminari_thumb.jpg",
-  "./Caffeina_Baien_thumb.jpg",
+  "/Caffeina_Natsukaze_thumb.webp",
+  "/Caffeina_Uminari_thumb.webp",
+  "/Caffeina_Baien_thumb.webp",
 ];
 
 const peristeronicaFeaturedCovers = [
-  "./Peristeronica_Rapid_thumb.jpg",
-  "./Peristeronica_Choudai_thumb.png",
-  "./Peristeronica_Tsuyu_thumb.png",
+  "/Peristeronica_Rapid_thumb.webp",
+  "/Peristeronica_Choudai_thumb.webp",
+  "/Peristeronica_Tsuyu_thumb.webp",
 ];
 
 function profileTypeClass(type) {
@@ -272,7 +273,7 @@ function buildProfileVideoEmbed(work) {
       src: `https://www.youtube.com/embed/${encodeURIComponent(video.id)}?${params.toString()}`,
       start,
       end,
-      volume: 40,
+      volume: Number.isFinite(work.volume) ? work.volume : 40,
     };
   }
 
@@ -288,7 +289,7 @@ function buildProfileVideoEmbed(work) {
     src: `https://embed.nicovideo.jp/watch/${encodeURIComponent(video.id)}?${params.toString()}`,
     start,
     end,
-    volume: 65,
+    volume: Number.isFinite(work.volume) ? work.volume : 65,
   };
 }
 
@@ -330,17 +331,27 @@ function postProfileNiconicoCommand(iframe, playerId, eventName, data = {}) {
   );
 }
 
-function primeProfilePlayer(iframe, embed) {
+function primeProfilePlayer(iframe, embed, renderToken) {
+  if (renderToken !== profileViewerRenderToken) {
+    return;
+  }
+
   if (embed.provider === "youtube") {
-    setupProfileYouTubePlayer(iframe, embed);
+    setupProfileYouTubePlayer(iframe, embed, renderToken);
     return;
   }
 
   let attempts = 0;
   const timer = window.setInterval(() => {
     attempts += 1;
+    if (renderToken !== profileViewerRenderToken || !document.body.contains(iframe)) {
+      window.clearInterval(timer);
+      return;
+    }
+
     postProfileNiconicoCommand(iframe, embed.playerId, "volumeChange", { volume: embed.volume / 100 });
     postProfileNiconicoCommand(iframe, embed.playerId, "play");
+    postProfileNiconicoCommand(iframe, embed.playerId, "volumeChange", { volume: embed.volume / 100 });
 
     if (attempts >= 8) {
       window.clearInterval(timer);
@@ -348,9 +359,9 @@ function primeProfilePlayer(iframe, embed) {
   }, 500);
 }
 
-function setupProfileYouTubePlayer(iframe, embed) {
+function setupProfileYouTubePlayer(iframe, embed, renderToken) {
   loadProfileYouTubeApi().then((YT) => {
-    if (!document.body.contains(iframe)) {
+    if (renderToken !== profileViewerRenderToken || !document.body.contains(iframe)) {
       return;
     }
 
@@ -359,6 +370,10 @@ function setupProfileYouTubePlayer(iframe, embed) {
     profileYouTubePlayer = new YT.Player(iframe, {
       events: {
         onReady: (event) => {
+          if (renderToken !== profileViewerRenderToken) {
+            return;
+          }
+
           event.target.setVolume(embed.volume);
 
           if (Number.isFinite(embed.start)) {
@@ -368,11 +383,19 @@ function setupProfileYouTubePlayer(iframe, embed) {
           event.target.playVideo();
         },
         onStateChange: (event) => {
+          if (renderToken !== profileViewerRenderToken) {
+            return;
+          }
+
           if (!shouldLoopRange) {
+            if (event.data === YT.PlayerState.PLAYING) {
+              event.target.setVolume(embed.volume);
+            }
             return;
           }
 
           if (event.data === YT.PlayerState.PLAYING) {
+            event.target.setVolume(embed.volume);
             scheduleProfileYouTubeRangeStop(event.target, embed);
           }
 
@@ -428,7 +451,9 @@ function renderProfileViewer() {
   const { list, index } = profileVideoContext;
   const work = list[index];
   const embed = buildProfileVideoEmbed(work);
+  const renderToken = profileViewerRenderToken + 1;
 
+  profileViewerRenderToken = renderToken;
   clearProfileVideoStopTimer();
   profileYouTubePlayer?.destroy?.();
   profileYouTubePlayer = null;
@@ -450,7 +475,7 @@ function renderProfileViewer() {
   iframe.allow = "autoplay; fullscreen; picture-in-picture";
   iframe.allowFullscreen = true;
   iframe.id = `profile-video-${Date.now()}`;
-  iframe.addEventListener("load", () => primeProfilePlayer(iframe, embed), { once: true });
+  iframe.addEventListener("load", () => primeProfilePlayer(iframe, embed, renderToken), { once: true });
   elements.frameSlot.append(iframe);
 }
 
@@ -482,6 +507,7 @@ function closeProfileViewer() {
   const elements = ensureProfileViewer();
 
   clearProfileVideoStopTimer();
+  profileViewerRenderToken += 1;
   profileYouTubePlayer?.destroy?.();
   profileYouTubePlayer = null;
   profileVideoContext = null;

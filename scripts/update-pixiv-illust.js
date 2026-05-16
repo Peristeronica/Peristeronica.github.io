@@ -1,11 +1,14 @@
 const fs = require("node:fs/promises");
 const path = require("node:path");
+const { spawn } = require("node:child_process");
 
 const USER_ID = "31571512";
 const PIXIV_PAGE = `https://www.pixiv.net/users/${USER_ID}/illustrations`;
 const ROOT_DIR = path.resolve(__dirname, "..");
 const DATA_DIR = path.join(ROOT_DIR, "data");
 const DETAIL_COUNT = 12;
+const IMAGE_EXTENSION = "webp";
+const WEBP_QUALITY = "82";
 
 const requestHeaders = {
   "User-Agent": "Mozilla/5.0",
@@ -90,7 +93,61 @@ async function downloadImage(url, filename) {
   }
 
   const buffer = Buffer.from(await response.arrayBuffer());
-  await fs.writeFile(path.join(DATA_DIR, filename), buffer);
+  const tempPath = path.join(DATA_DIR, `${filename}.source`);
+  const outputPath = path.join(DATA_DIR, filename);
+
+  await fs.writeFile(tempPath, buffer);
+
+  try {
+    await convertImageToWebp(tempPath, outputPath);
+  } finally {
+    await fs.unlink(tempPath).catch(() => {});
+  }
+}
+
+function runImageCommand(command, args) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, args, { stdio: ["ignore", "ignore", "pipe"] });
+    let stderr = "";
+
+    child.stderr.on("data", (chunk) => {
+      stderr += chunk;
+    });
+
+    child.on("error", reject);
+    child.on("close", (code) => {
+      if (code === 0) {
+        resolve();
+        return;
+      }
+
+      reject(new Error(`${command} exited with ${code}: ${stderr.trim()}`));
+    });
+  });
+}
+
+async function convertImageToWebp(sourcePath, outputPath) {
+  const commands = process.platform === "win32" ? ["magick"] : ["magick", "convert"];
+  let lastError = null;
+
+  for (const command of commands) {
+    try {
+      await runImageCommand(command, [
+        sourcePath,
+        "-strip",
+        "-define",
+        "webp:method=6",
+        "-quality",
+        WEBP_QUALITY,
+        outputPath,
+      ]);
+      return;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw new Error(`Failed to convert Pixiv image to WebP. Is ImageMagick installed? ${lastError?.message || ""}`);
 }
 
 function buildSiteData(works) {
@@ -100,7 +157,7 @@ function buildSiteData(works) {
     role: "イラスト制作",
     date: formatDate(works[0].createDate),
     type: "Illust",
-    cover: "./data/pixiv-illust-1.jpg",
+    cover: `/data/pixiv-illust-1.${IMAGE_EXTENSION}`,
     url: PIXIV_PAGE,
     openExternal: true,
     externalTarget: "pixiv-illust",
@@ -112,7 +169,7 @@ function buildSiteData(works) {
       description: "Pixiv illustration",
       role: "イラスト制作",
       date: formatDate(work.createDate),
-      cover: `./data/pixiv-illust-${index + 1}.jpg`,
+      cover: `/data/pixiv-illust-${index + 1}.${IMAGE_EXTENSION}`,
       url: `https://www.pixiv.net/artworks/${work.id}`,
     })),
   };
@@ -124,7 +181,7 @@ async function main() {
   const works = await fetchLatestWorks();
 
   await Promise.all(
-    works.map((work, index) => downloadImage(work.url, `pixiv-illust-${index + 1}.jpg`))
+    works.map((work, index) => downloadImage(work.url, `pixiv-illust-${index + 1}.${IMAGE_EXTENSION}`))
   );
 
   const siteData = buildSiteData(works);

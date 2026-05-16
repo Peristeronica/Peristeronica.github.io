@@ -4,7 +4,7 @@ window.pixivIllustData = {
   "role": "イラスト制作",
   "date": "2026-04-06",
   "type": "Illust",
-  "cover": "./data/pixiv-illust-1.jpg",
+  "cover": "/data/pixiv-illust-1.webp",
   "url": "https://www.pixiv.net/users/31571512/illustrations",
   "openExternal": true,
   "externalTarget": "pixiv-illust",
@@ -17,7 +17,7 @@ window.pixivIllustData = {
       "description": "Pixiv illustration",
       "role": "イラスト制作",
       "date": "2026-04-06",
-      "cover": "./data/pixiv-illust-1.jpg",
+      "cover": "/data/pixiv-illust-1.webp",
       "url": "https://www.pixiv.net/artworks/143207919"
     },
     {
@@ -25,7 +25,7 @@ window.pixivIllustData = {
       "description": "Pixiv illustration",
       "role": "イラスト制作",
       "date": "2026-01-24",
-      "cover": "./data/pixiv-illust-2.jpg",
+      "cover": "/data/pixiv-illust-2.webp",
       "url": "https://www.pixiv.net/artworks/140296622"
     },
     {
@@ -33,7 +33,7 @@ window.pixivIllustData = {
       "description": "Pixiv illustration",
       "role": "イラスト制作",
       "date": "2025-12-16",
-      "cover": "./data/pixiv-illust-3.jpg",
+      "cover": "/data/pixiv-illust-3.webp",
       "url": "https://www.pixiv.net/artworks/138673132"
     }
   ]
