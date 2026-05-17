@@ -1,5 +1,5 @@
 window.NICO_MYLIST_DATA = {
-  "updatedAt": "2026-05-17T13:47:52.731Z",
+  "updatedAt": "2026-05-17T19:19:17.315Z",
   "source": "https://www.nicovideo.jp/user/61445526/mylist/78998106?rss=2.0",
   "totalCount": 63,
   "videos": [
