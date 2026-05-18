@@ -74,6 +74,16 @@ a {
   transform: translateY(-2px);
 }
 
+@media (hover: none) {
+  .caffeina-works-page .primary-nav .nav-switch {
+    background: var(--per);
+  }
+
+  .peristeronica-works-page .primary-nav .nav-switch {
+    background: var(--caf);
+  }
+}
+
 .brand-logo {
   align-items: center;
   display: flex;
@@ -235,6 +245,7 @@ a {
 }
 
 .type-1day-dtm .work-cover,
+.type-game .work-cover,
 .type-illust .work-cover {
   aspect-ratio: 1;
   background: transparent;

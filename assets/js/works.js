@@ -199,7 +199,7 @@ function createWorkCard(work, list, index) {
   const workDate = getWorkDate(work);
   const date = document.createElement("time");
   date.dateTime = workDate;
-  date.textContent = workDate;
+  date.textContent = work.displayDate || workDate;
   body.append(date);
 
   wrapper.append(cover, body);

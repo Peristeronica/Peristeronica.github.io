@@ -640,6 +640,16 @@ a {
   background: var(--per);
 }
 
+@media (hover: none) {
+  .profile-works-link {
+    background: var(--caf);
+  }
+
+  #per-profile .profile-works-link {
+    background: var(--per);
+  }
+}
+
 .profile-viewer {
   --profile-viewer-gap: clamp(8px, 1.8vw, 24px);
   --profile-viewer-padding: clamp(16px, 3.4vw, 42px);
