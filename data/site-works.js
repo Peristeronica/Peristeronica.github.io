@@ -529,6 +529,7 @@ window.siteWorks = {
         openExternal: true,
         externalTarget: "youtube-luminescence",
         externalIcon: true,
+        preventDuplicateExternalTabs: true,
         hoverLabel: "YouTubeで開く",
       },
       {
@@ -629,6 +630,7 @@ window.siteWorks = {
         openExternal: true,
         externalTarget: "youtube-1day-movie",
         externalIcon: true,
+        preventDuplicateExternalTabs: true,
         hoverLabel: "YouTubeで開く",
       },
     ],

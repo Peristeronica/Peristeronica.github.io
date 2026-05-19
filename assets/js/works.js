@@ -6,6 +6,7 @@ let activeYouTubePlayer = null;
 let videoViewerElements = null;
 let youtubeApiPromise = null;
 let oneDayDtmLastIndex = 0;
+const externalWindowHandles = new Map();
 
 const viewerButtonLabels = {
   first: "最新の作品へ",
@@ -66,6 +67,36 @@ function isVideoWork(work) {
 
 function isOneDayDtmCollection(work) {
   return work.type === "1day_DTM" && Array.isArray(work.collection);
+}
+
+function shouldPreventDuplicateExternalTabs(work) {
+  return Boolean(work.preventDuplicateExternalTabs && work.externalTarget);
+}
+
+function handleExternalCardClick(event, work) {
+  if (!shouldPreventDuplicateExternalTabs(work)) {
+    return;
+  }
+
+  if (event.type === "auxclick" && event.button !== 1) {
+    return;
+  }
+
+  const openedWindow = externalWindowHandles.get(work.externalTarget);
+
+  if (openedWindow && !openedWindow.closed) {
+    event.preventDefault();
+    openedWindow.focus();
+    return;
+  }
+
+  event.preventDefault();
+  const nextWindow = window.open(work.url, work.externalTarget);
+
+  if (nextWindow) {
+    externalWindowHandles.set(work.externalTarget, nextWindow);
+    nextWindow.focus();
+  }
 }
 
 function usesBurstCover(work) {
@@ -156,6 +187,8 @@ function createWorkCard(work, list, index) {
     }
     wrapper.title = work.hoverLabel || "";
     wrapper.setAttribute("aria-label", `${work.title} ${work.hoverLabel || ""}`.trim());
+    wrapper.addEventListener("click", (event) => handleExternalCardClick(event, work));
+    wrapper.addEventListener("auxclick", (event) => handleExternalCardClick(event, work));
   } else if (work.collection) {
     wrapper.type = "button";
     wrapper.addEventListener("click", () => {
