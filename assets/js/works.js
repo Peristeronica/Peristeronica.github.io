@@ -21,7 +21,7 @@ const typeLabels = {
   Goods: "Goods",
   "1day_DTM": "1dayDTM",
   Illust: "Illust",
-  "1day_Movie": "1day_Movie",
+  "1day_Movie": "1dayMovie",
 };
 
 function applyPixivIllustData() {
@@ -92,6 +92,9 @@ function createCoverImage(src) {
 function createWorkCover(work) {
   const cover = document.createElement("figure");
   cover.className = "work-cover";
+  if (work.coverAspect) {
+    cover.style.aspectRatio = work.coverAspect;
+  }
   if (work.hoverLabel) {
     cover.title = work.hoverLabel;
   }
@@ -138,6 +141,9 @@ function createWorkCard(work, list, index) {
   wrapper.className = `work-card ${typeClass(work.type)}`;
   if (work.aspect) {
     wrapper.classList.add(`aspect-${work.aspect}`);
+  }
+  if (work.coverSize) {
+    wrapper.classList.add(`cover-${work.coverSize}`);
   }
 
   if (opensExternal) {

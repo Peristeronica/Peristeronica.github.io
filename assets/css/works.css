@@ -246,7 +246,8 @@ a {
 
 .type-1day-dtm .work-cover,
 .type-game .work-cover,
-.type-illust .work-cover {
+.type-illust .work-cover,
+.peristeronica-works-page .type-album .work-cover {
   aspect-ratio: 1;
   background: transparent;
   box-shadow: none;
@@ -254,6 +255,24 @@ a {
   margin-right: auto;
   overflow: visible;
   width: 75%;
+}
+
+.peristeronica-works-page .work-card.cover-full .work-cover {
+  background: #ece7df;
+  box-shadow: 0 1px 0 rgba(17, 19, 24, 0.08);
+  margin-left: 0;
+  margin-right: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.peristeronica-works-page .work-card.cover-poster .work-cover {
+  background: #ece7df;
+  box-shadow: 0 1px 0 rgba(17, 19, 24, 0.08);
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+  width: 42%;
 }
 
 .work-cover-burst {
