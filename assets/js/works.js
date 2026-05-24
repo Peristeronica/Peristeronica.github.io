@@ -23,6 +23,7 @@ const typeLabels = {
   Goods: "Goods",
   "1day_DTM": "1dayDTM",
   Illust: "Illust",
+  Novel: "Novel",
   "1day_Movie": "1dayMovie",
 };
 

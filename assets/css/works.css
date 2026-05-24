@@ -379,6 +379,10 @@ a {
   background: #5a5f6a;
 }
 
+.type-novel .work-tag {
+  background: #876246;
+}
+
 .type-game .work-tag,
 .type-goods .work-tag {
   background: #6f5aa7;
