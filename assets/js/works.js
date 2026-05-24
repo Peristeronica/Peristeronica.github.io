@@ -18,6 +18,7 @@ const viewerButtonLabels = {
 const typeLabels = {
   Music: "Music",
   Album: "Album",
+  Article: "Article",
   Game: "Game",
   Goods: "Goods",
   "1day_DTM": "1dayDTM",

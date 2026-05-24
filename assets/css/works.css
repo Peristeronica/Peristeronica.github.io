@@ -375,6 +375,10 @@ a {
   background: var(--caf);
 }
 
+.type-article .work-tag {
+  background: #5a5f6a;
+}
+
 .type-game .work-tag,
 .type-goods .work-tag {
   background: #6f5aa7;
