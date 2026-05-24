@@ -10,6 +10,7 @@ let profileYouTubePlayer = null;
 let profileYouTubeApiPromise = null;
 let profileVideoStopTimer = 0;
 let profileViewerRenderToken = 0;
+const newsExternalWindowHandles = new Map();
 
 const profileTypeLabels = {
   Music: "Music",
@@ -543,6 +544,113 @@ function closeProfileViewer() {
   document.body.classList.remove("is-profile-viewer-open");
 }
 
+function sortNewsByNewest(newsItems) {
+  return [...newsItems].sort((a, b) => {
+    const aTime = Date.parse(a.date || "") || 0;
+    const bTime = Date.parse(b.date || "") || 0;
+    return bTime - aTime;
+  });
+}
+
+function newsOwnerClass(owner) {
+  return `news-owner-${String(owner).toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+}
+
+function handleNewsExternalClick(event, newsItem) {
+  if (!newsItem.url || !newsItem.externalTarget) {
+    return;
+  }
+
+  if (event.type === "auxclick" && event.button !== 1) {
+    return;
+  }
+
+  const openedWindow = newsExternalWindowHandles.get(newsItem.externalTarget);
+
+  if (openedWindow && !openedWindow.closed) {
+    event.preventDefault();
+    openedWindow.focus();
+    return;
+  }
+
+  event.preventDefault();
+  const nextWindow = window.open(newsItem.url, newsItem.externalTarget);
+
+  if (nextWindow) {
+    newsExternalWindowHandles.set(newsItem.externalTarget, nextWindow);
+    nextWindow.focus();
+  }
+}
+
+function createExternalLinkIcon() {
+  const icon = document.createElement("span");
+  icon.className = "external-link-icon";
+  icon.setAttribute("aria-hidden", "true");
+  return icon;
+}
+
+function createNewsItem(newsItem) {
+  const hasUrl = Boolean(newsItem.url);
+  const item = document.createElement(hasUrl ? "a" : "article");
+  item.className = `news-item ${newsOwnerClass(newsItem.owner || "")}`;
+
+  if (hasUrl) {
+    item.href = newsItem.url;
+    item.target = newsItem.externalTarget || "_blank";
+    item.rel = "noreferrer";
+    item.addEventListener("click", (event) => handleNewsExternalClick(event, newsItem));
+    item.addEventListener("auxclick", (event) => handleNewsExternalClick(event, newsItem));
+  }
+
+  const meta = document.createElement("div");
+  meta.className = "news-meta";
+
+  const date = document.createElement("time");
+  date.dateTime = newsItem.date || "";
+  date.textContent = newsItem.displayDate || newsItem.date || "";
+
+  const owner = document.createElement("span");
+  owner.className = "news-owner";
+  owner.textContent = newsItem.owner || "";
+
+  meta.append(date, owner);
+
+  const title = document.createElement("h2");
+  title.className = "news-title";
+  title.append(document.createTextNode(newsItem.title || ""));
+
+  if (hasUrl) {
+    title.append(createExternalLinkIcon());
+  }
+
+  const subtitle = document.createElement("p");
+  subtitle.className = "news-subtitle";
+  subtitle.textContent = newsItem.subtitle || "";
+
+  item.append(meta, title, subtitle);
+  return item;
+}
+
+function renderNews() {
+  const container = document.querySelector("[data-news-list]");
+
+  if (!container) {
+    return;
+  }
+
+  const newsItems = Array.isArray(window.siteNews) ? sortNewsByNewest(window.siteNews) : [];
+
+  if (!newsItems.length) {
+    const emptyMessage = document.createElement("p");
+    emptyMessage.className = "news-empty";
+    emptyMessage.textContent = "わざわざ知らせるほどのことがまだ無い。";
+    container.replaceChildren(emptyMessage);
+    return;
+  }
+
+  container.replaceChildren(...newsItems.map(createNewsItem));
+}
+
 function openArtistMenu(card) {
   closeArtistMenus(card);
   card.classList.add("is-open");
@@ -666,4 +774,5 @@ window.addEventListener("keydown", (event) => {
   void handleKeyTrail(event);
 });
 
+renderNews();
 renderProfileWorks();

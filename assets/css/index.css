@@ -427,6 +427,123 @@ a {
   margin-bottom: 0;
 }
 
+.news-list {
+  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  display: grid;
+  max-height: min(430px, 62dvh);
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+.news-item {
+  border-bottom: 1px solid var(--line);
+  color: inherit;
+  display: grid;
+  gap: 8px;
+  padding: 18px 8px 18px 0;
+  text-align: left;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.news-item:last-child {
+  border-bottom: 0;
+}
+
+a.news-item:hover,
+a.news-item:focus-visible {
+  opacity: 0.78;
+  outline: none;
+  transform: translateX(4px);
+}
+
+.news-meta {
+  align-items: center;
+  color: rgba(17, 19, 24, 0.62);
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.78rem;
+  font-weight: 800;
+  gap: 8px;
+  letter-spacing: 0.04em;
+}
+
+.news-owner {
+  background: var(--ink);
+  color: #ffffff;
+  display: inline-flex;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  padding: 6px 8px;
+}
+
+.news-owner-caffeina .news-owner {
+  background: var(--caf);
+}
+
+.news-owner-peristeronica .news-owner {
+  background: var(--per);
+}
+
+.content-section .news-title {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  font-family: inherit;
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  font-weight: 900;
+  gap: 0.2em;
+  line-height: 1.45;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.content-section .news-subtitle,
+.content-section .news-empty {
+  color: rgba(17, 19, 24, 0.7);
+  font-size: clamp(0.92rem, 1.5vw, 1.02rem);
+  font-weight: 600;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.external-link-icon {
+  display: inline-block;
+  flex: 0 0 auto;
+  height: 0.78em;
+  margin-left: 0.08em;
+  position: relative;
+  vertical-align: 0.02em;
+  width: 0.78em;
+}
+
+.external-link-icon::before,
+.external-link-icon::after {
+  box-sizing: border-box;
+  content: "";
+  display: block;
+  position: absolute;
+}
+
+.external-link-icon::before {
+  border: 0.12em solid currentColor;
+  bottom: 0;
+  height: 0.58em;
+  left: 0;
+  width: 0.58em;
+}
+
+.external-link-icon::after {
+  border-right: 0.12em solid currentColor;
+  border-top: 0.12em solid currentColor;
+  height: 0.48em;
+  right: 0;
+  top: 0;
+  width: 0.48em;
+}
+
 .artist-profile-list {
   border-top: 1px solid var(--line);
   display: grid;
