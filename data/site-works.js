@@ -204,7 +204,7 @@ window.siteWorks = {
     other: [
       {
         title: "1dayDTM",
-        description: "短時間で制作した楽曲のまとめ",
+        description: "短時間制作楽曲のまとめ",
         role: "企画, 一部運営, 楽曲制作",
         date: "2026-01-30",
         type: "1day_DTM",
@@ -424,7 +424,7 @@ window.siteWorks = {
       },
       {
         title: "客死",
-        description: "デジクリ 2022文字書きやろう企画 参加作",
+        description: "デジクリ 2022文字書き企画 参加作",
         role: "執筆",
         date: "2022-07-13",
         displayDate: "2022/07/13",
