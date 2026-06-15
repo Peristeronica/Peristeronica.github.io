@@ -192,6 +192,16 @@ window.siteWorks = {
         url: "https://youtu.be/yzlxFDdrNls?t=402&si=-rHGx_6C8PJHugy7",
       },
       {
+        title: "Gazephobia ft.裏命",
+        description: "デジクリ 2025後期MV企画 参加曲",
+        role: "企画, 共同運営, 二次楽曲制作",
+        date: "2026-05-17",
+        type: "Music",
+        playback: { start: 623, end: 759 },
+        cover: "/assets/images/works/Peristeronica_Gazephobia_thumb.webp",
+        url: "https://www.youtube.com/watch?v=h7L6glMcNWg&t=623s",
+      },
+      {
         title: "ノミナル ft.LeuR",
         description: "ボカコレ2026冬 参加曲",
         role: "企画, 作詞曲",
