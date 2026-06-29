@@ -1,7 +1,7 @@
 window.NICO_MYLIST_DATA = {
-  "updatedAt": "2026-06-15T12:33:18.702Z",
+  "updatedAt": "2026-06-24T19:56:49.571Z",
   "source": "https://www.nicovideo.jp/user/61445526/mylist/78998106?rss=2.0",
-  "totalCount": 63,
+  "totalCount": 64,
   "videos": [
     {
       "id": "sm44478568",
@@ -443,6 +443,13 @@ window.NICO_MYLIST_DATA = {
       "url": "https://www.nicovideo.jp/watch/sm45389226?ref=rss_mylist_rss2.0",
       "pubDate": "Mon, 11 May 2026 16:13:46 +0900",
       "description": "\n<p class=\"nico-thumbnail\"><img alt=\"ババンバアンアンアン\" src=\"https://nicovideo.cdn.nimg.jp/thumbnails/45389226/45389226.56052781\" width=\"94\" height=\"70\" border=\"0\"/></p>\n<p class=\"nico-description\">【まじょなぞ・1問目】まのさばで一番お風呂が好きな子はだ～れだ？</p>\n<p class=\"nico-info\"><small><strong class=\"nico-info-length\">0:25</strong>｜<strong class=\"nico-info-date\">2025年09月10日 11：36：03</strong> 投稿</small></p>\n"
+    },
+    {
+      "id": "sm45185036",
+      "title": "ビビデバ(魚)",
+      "url": "https://www.nicovideo.jp/watch/sm45185036?ref=rss_mylist_rss2.0",
+      "pubDate": "Sat, 20 Jun 2026 04:33:01 +0900",
+      "description": "\n<p class=\"nico-thumbnail\"><img alt=\"ビビデバ(魚)\" src=\"https://nicovideo.cdn.nimg.jp/thumbnails/45185036/45185036.58324739\" width=\"94\" height=\"70\" border=\"0\"/></p>\n<p class=\"nico-description\">こいつおもろいから好き</p>\n<p class=\"nico-info\"><small><strong class=\"nico-info-length\">0:51</strong>｜<strong class=\"nico-info-date\">2025年07月13日 23：09：04</strong> 投稿</small></p>\n"
     }
   ]
 };
