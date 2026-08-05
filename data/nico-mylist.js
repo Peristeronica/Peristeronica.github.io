@@ -1,5 +1,5 @@
 window.NICO_MYLIST_DATA = {
-  "updatedAt": "2026-08-05T03:16:38.512Z",
+  "updatedAt": "2026-08-05T08:46:06.654Z",
   "source": "https://nvapi.nicovideo.jp/v2/mylists/78998106",
   "totalCount": 64,
   "videos": [
@@ -428,7 +428,7 @@ window.NICO_MYLIST_DATA = {
       "title": "ポーシャー　ねるねるねるねCM",
       "url": "https://www.nicovideo.jp/watch/sm45859469",
       "pubDate": "Fri, 08 May 2026 21:33:39 GMT",
-      "description": "\n<p class=\"nico-thumbnail\"><img alt=\"ポーシャー　ねるねるねるねCM\" src=\"https://nicovideo.cdn.nimg.jp/thumbnails/45859469/45859469.38808537\" width=\"94\" height=\"70\" border=\"0\"/></p>\n<p class=\"nico-description\">おお※【同人作品】です</p>\n<p class=\"nico-info\"><small><strong class=\"nico-info-length\">0:15</strong>｜<strong class=\"nico-info-date\">2026年01月21日 02：00：00</strong> 投稿</small></p>\n"
+      "description": "\n<p class=\"nico-thumbnail\"><img alt=\"ポーシャー　ねるねるねるねCM\" src=\"https://nicovideo.cdn.nimg.jp/thumbnails/45859469/45859469.38808537\" width=\"94\" height=\"70\" border=\"0\"/></p>\n<p class=\"nico-description\">おお※【同人作品】ですねるねるねるね：https://www.kracie.co.jp/foods/</p>\n<p class=\"nico-info\"><small><strong class=\"nico-info-length\">0:15</strong>｜<strong class=\"nico-info-date\">2026年01月21日 02：00：00</strong> 投稿</small></p>\n"
     },
     {
       "id": "sm45354248",
