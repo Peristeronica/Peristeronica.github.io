@@ -212,7 +212,7 @@ window.siteWorks = {
       },
       {
         title: "リョウリョウ-メイメイ ft.初音ミク",
-        description: "初音ミク生誕祭2026",
+        description: "初音ミク生誕祭2026 参加曲",
         role: "企画, 楽曲制作",
         date: "2026-09-05",
         type: "Music",
