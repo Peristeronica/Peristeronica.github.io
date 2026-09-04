@@ -12,6 +12,58 @@ let profileVideoStopTimer = 0;
 let profileViewerRenderToken = 0;
 const newsExternalWindowHandles = new Map();
 
+function updateLatestImageFocus(panel) {
+  const image = panel.querySelector("img[data-focus-y]");
+
+  if (!image?.naturalWidth || !image.naturalHeight || !panel.clientWidth || !panel.clientHeight) {
+    return;
+  }
+
+  const requestedFocusY = Number(image.dataset.focusY);
+  const focusY = Number.isFinite(requestedFocusY)
+    ? Math.min(1, Math.max(0, requestedFocusY))
+    : 0.5;
+  const scale = Math.max(panel.clientWidth / image.naturalWidth, panel.clientHeight / image.naturalHeight);
+  const renderedHeight = image.naturalHeight * scale;
+  const minimumOffset = Math.min(0, panel.clientHeight - renderedHeight);
+  const desiredOffset = (panel.clientHeight / 2) - (renderedHeight * focusY);
+  const offset = Math.min(0, Math.max(minimumOffset, desiredOffset));
+  const overflow = panel.clientHeight - renderedHeight;
+  const objectPositionY = Math.abs(overflow) < 0.5 ? 50 : (offset / overflow) * 100;
+  const visibleFocusY = offset + (renderedHeight * focusY);
+  const transformOriginY = Math.min(100, Math.max(0, (visibleFocusY / panel.clientHeight) * 100));
+
+  image.style.setProperty("--latest-focus-position-y", `${objectPositionY}%`);
+  image.style.setProperty("--latest-transform-origin-y", `${transformOriginY}%`);
+}
+
+function setupLatestImageFocus() {
+  const panels = [...document.querySelectorAll(".latest-panel")];
+
+  panels.forEach((panel) => {
+    const image = panel.querySelector("img[data-focus-y]");
+    const update = () => updateLatestImageFocus(panel);
+
+    if (image?.complete) {
+      update();
+    } else {
+      image?.addEventListener("load", update, { once: true });
+    }
+  });
+
+  if ("ResizeObserver" in window) {
+    const observer = new ResizeObserver((entries) => {
+      entries.forEach((entry) => updateLatestImageFocus(entry.target));
+    });
+    panels.forEach((panel) => observer.observe(panel));
+    return;
+  }
+
+  window.addEventListener("resize", () => {
+    panels.forEach(updateLatestImageFocus);
+  });
+}
+
 const profileTypeLabels = {
   Music: "Music",
   Album: "Album",
@@ -774,5 +826,6 @@ window.addEventListener("keydown", (event) => {
   void handleKeyTrail(event);
 });
 
+setupLatestImageFocus();
 renderNews();
 renderProfileWorks();

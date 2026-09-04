@@ -210,6 +210,15 @@ window.siteWorks = {
         cover: "/assets/images/works/Peristeronica_Nominal_thumb.webp",
         url: "https://www.nicovideo.jp/watch/sm45983873",
       },
+      {
+        title: "リョウリョウ-メイメイ",
+        description: "初音ミク生誕祭2026",
+        role: "企画, 楽曲制作",
+        date: "2026-09-05",
+        type: "Music",
+        cover: "/assets/images/works/Peristeronica_RyoryoMeimei_thumb.webp",
+        url: "https://www.nicovideo.jp/watch/sm46761687",
+      },
     ],
     other: [
       {
