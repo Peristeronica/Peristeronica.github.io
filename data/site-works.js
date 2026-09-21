@@ -240,7 +240,7 @@ window.siteWorks = {
         date: "2026-09-05",
         type: "Music",
         cover: "/assets/images/works/Peristeronica_RyoryoMeimei_thumb.webp",
-        url: "https://www.nicovideo.jp/watch/sm46761687",
+        url: "https://www.youtube.com/watch?v=u0Ietyf4zmg",
       },
     ],
     other: [

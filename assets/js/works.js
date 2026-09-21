@@ -8,6 +8,9 @@ let youtubeApiPromise = null;
 let oneDayDtmLastIndex = 0;
 const externalWindowHandles = new Map();
 const musicViewerHistoryKey = "musicViewerEntry";
+const musicWorksBasePath = document.body.classList.contains("caffeina-works-page")
+  ? "/caffeina_works/"
+  : "/peristeronica_works/";
 
 const viewerButtonLabels = {
   first: "最新の作品へ",
@@ -74,7 +77,8 @@ function isShareableMusicWork(work) {
 
 function buildMusicWorkPath(work) {
   const url = new URL(location.href);
-  url.searchParams.set("work", work.id);
+  url.pathname = `${musicWorksBasePath}${encodeURIComponent(work.id)}/`;
+  url.searchParams.delete("work");
   url.searchParams.delete("viewer");
   return `${url.pathname}${url.search}${url.hash}`;
 }
@@ -101,6 +105,7 @@ function updateMusicWorkUrl(work, mode = "replace", markViewerEntry = false) {
 function clearMusicWorkUrl() {
   const url = new URL(location.href);
   const state = { ...getHistoryState() };
+  url.pathname = musicWorksBasePath;
   url.searchParams.delete("work");
   url.searchParams.delete("viewer");
   delete state[musicViewerHistoryKey];
@@ -805,21 +810,29 @@ function findVideoWork(predicate) {
 
 function openViewerFromUrl() {
   const params = new URLSearchParams(location.search);
+  const pathWorkId = location.pathname.startsWith(musicWorksBasePath)
+    ? location.pathname.slice(musicWorksBasePath.length).replace(/\/$/, "")
+    : "";
   const workId = params.get("work");
   const legacyTitle = params.get("viewer");
-  let match = workId ? findVideoWork((work) => work.id === workId) : null;
-  let usedLegacyTitle = false;
+  let match = pathWorkId ? findVideoWork((work) => work.id === pathWorkId) : null;
+  let usedLegacyUrl = false;
+
+  if (!match && workId) {
+    match = findVideoWork((work) => work.id === workId);
+    usedLegacyUrl = Boolean(match);
+  }
 
   if (!match && legacyTitle) {
     match = findVideoWork((work) => work.title === legacyTitle);
-    usedLegacyTitle = Boolean(match);
+    usedLegacyUrl = Boolean(match);
   }
 
   if (!match) {
     return false;
   }
 
-  if (usedLegacyTitle && isShareableMusicWork(match.work)) {
+  if (usedLegacyUrl && isShareableMusicWork(match.work)) {
     updateMusicWorkUrl(match.work);
   }
 
