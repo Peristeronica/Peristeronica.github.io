@@ -2,6 +2,7 @@ window.siteWorks = {
   caffeina: [
     {
       title: "i ft.初音ミク",
+      id: "i",
       description: "Caffeina 1作目",
       role: "楽曲制作, 映像編集",
       date: "2022-01-12",
@@ -11,6 +12,7 @@ window.siteWorks = {
     },
     {
       title: "0 gravity ft.初音ミク",
+      id: "0-gravity",
       description: "Caffeina 2作目",
       role: "作詞曲・編曲, 映像編集",
       date: "2022-02-18",
@@ -20,6 +22,7 @@ window.siteWorks = {
     },
     {
       title: "海鳴り ft.初音ミク",
+      id: "uminari",
       description: "Caffeina 3作目",
       role: "作詞曲・編曲, 映像編集",
       date: "2022-08-31",
@@ -29,6 +32,7 @@ window.siteWorks = {
     },
     {
       title: "春靄へ。 ft.初音ミク",
+      id: "shunai",
       description: "Caffeina 4作目",
       role: "楽曲共作, 映像編集",
       date: "2023-05-01",
@@ -38,6 +42,7 @@ window.siteWorks = {
     },
     {
       title: "夏風邪 ft.初音ミク",
+      id: "natsukaze",
       description: "ボカコレ2023夏 参加曲",
       role: "楽曲共作, 映像編集",
       date: "2023-08-04",
@@ -47,6 +52,7 @@ window.siteWorks = {
     },
     {
       title: "煤煙 ft.知声",
+      id: "baien",
       description: "無色透名祭3 参加曲",
       role: "楽曲共作, 映像編集",
       date: "2025-11-21",
@@ -59,6 +65,7 @@ window.siteWorks = {
     music: [
       {
         title: "煤煙 ft.知声",
+        id: "baien",
         description: "無色透名祭3 参加曲",
         role: "楽曲共作",
         date: "2025-11-21",
@@ -68,6 +75,7 @@ window.siteWorks = {
       },
       {
         title: "ラピッド ft.鏡音リン, 初音ミク",
+        id: "rapid",
         description: "ボカコレ2025夏 参加曲",
         role: "企画, 楽曲制作",
         date: "2025-08-23",
@@ -77,6 +85,7 @@ window.siteWorks = {
       },
       {
         title: "0 gravity ft.初音ミク",
+        id: "0-gravity",
         description: "Caffeina 2作目",
         role: "Mix, Master",
         date: "2022-02-18",
@@ -86,8 +95,9 @@ window.siteWorks = {
       },
       {
         title: "海鳴り ft.初音ミク",
+        id: "uminari",
         description: "Caffeina 3作目",
-        role: "Mix. Master",
+        role: "Mix, Master",
         date: "2022-08-31",
         type: "Music",
         cover: "/assets/images/works/Caffeina_Uminari_thumb.webp",
@@ -95,6 +105,7 @@ window.siteWorks = {
       },
       {
         title: "春靄へ。 ft.初音ミク",
+        id: "shunai",
         description: "Caffeina 4作目",
         role: "楽曲共作",
         date: "2023-05-01",
@@ -104,6 +115,7 @@ window.siteWorks = {
       },
       {
         title: "夏風邪 ft.初音ミク",
+        id: "natsukaze",
         description: "ボカコレ2023夏 参加曲",
         role: "楽曲共作",
         date: "2023-08-04",
@@ -113,6 +125,7 @@ window.siteWorks = {
       },
       {
         title: "梅雨の終わりに ft.初音ミク",
+        id: "tsuyu-no-owari-ni",
         description: "デジクリ 2023前期MV企画 参加曲",
         role: "企画, 運営, 一次楽曲制作",
         date: "2023-11-03",
@@ -123,6 +136,7 @@ window.siteWorks = {
       },
       {
         title: "ネビュラリフレクション ft.初音ミク",
+        id: "nebula-reflection",
         description: "デジクリ 2023前期MV企画 参加曲",
         role: "企画, 運営, 二次楽曲制作",
         date: "2023-11-04",
@@ -133,6 +147,7 @@ window.siteWorks = {
       },
       {
         title: "地平線の見える場所 ft.裏命",
+        id: "chiheisen-no-mieru-basho",
         description: "デジクリ 2023後期MV企画 参加曲",
         role: "企画, 運営, 一次楽曲制作",
         date: "2024-05-20",
@@ -143,6 +158,7 @@ window.siteWorks = {
       },
       {
         title: "Rainbow_Midnight ft.初音ミク",
+        id: "rainbow-midnight",
         description: "デジクリ 2023後期MV企画 参加曲",
         role: "企画, 運営, 二次楽曲制作",
         date: "2024-05-21",
@@ -153,6 +169,7 @@ window.siteWorks = {
       },
       {
         title: "ちょうだい？ ft.裏命",
+        id: "choudai",
         description: "デジクリ 2024前期MV企画 参加曲",
         role: "企画, 運営, 二次楽曲制作",
         date: "2024-11-07",
@@ -163,6 +180,7 @@ window.siteWorks = {
       },
       {
         title: "BOOST GIRL ft.初音ミク",
+        id: "boost-girl",
         description: "デジクリ 2024後期MV企画 参加曲",
         role: "企画, 共同運営, 二次楽曲制作",
         date: "2025-05-22",
@@ -173,6 +191,7 @@ window.siteWorks = {
       },
       {
         title: "らぷそでぃ…？ ft.初音ミク",
+        id: "rhapsody",
         description: "デジクリ 2024後期MV企画 参加曲",
         role: "企画, 共同運営, 一次楽曲制作",
         date: "2025-05-21",
@@ -183,6 +202,7 @@ window.siteWorks = {
       },
       {
         title: "I F ft.裏命",
+        id: "i-f",
         description: "デジクリ 2025前期MV企画 参加曲",
         role: "企画, 共同運営, 二次楽曲制作",
         date: "2025-11-08",
@@ -193,6 +213,7 @@ window.siteWorks = {
       },
       {
         title: "Gazephobia ft.裏命",
+        id: "gazephobia",
         description: "デジクリ 2025後期MV企画 参加曲",
         role: "企画, 共同運営, 二次楽曲制作",
         date: "2026-05-17",
@@ -203,6 +224,7 @@ window.siteWorks = {
       },
       {
         title: "ノミナル ft.LeuR",
+        id: "nominal",
         description: "ボカコレ2026冬 参加曲",
         role: "企画, 作詞曲",
         date: "2026-02-23",
@@ -212,6 +234,7 @@ window.siteWorks = {
       },
       {
         title: "リョウリョウ-メイメイ ft.初音ミク",
+        id: "ryoryo-meimei",
         description: "初音ミク生誕祭2026 参加曲",
         role: "企画, 楽曲制作",
         date: "2026-09-05",

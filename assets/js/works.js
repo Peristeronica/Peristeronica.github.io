@@ -7,6 +7,7 @@ let videoViewerElements = null;
 let youtubeApiPromise = null;
 let oneDayDtmLastIndex = 0;
 const externalWindowHandles = new Map();
+const musicViewerHistoryKey = "musicViewerEntry";
 
 const viewerButtonLabels = {
   first: "最新の作品へ",
@@ -65,6 +66,49 @@ function typeClass(type) {
 
 function isVideoWork(work) {
   return work.type === "Music" && Boolean(work.url);
+}
+
+function isShareableMusicWork(work) {
+  return isVideoWork(work) && typeof work.id === "string" && work.id.length > 0;
+}
+
+function buildMusicWorkPath(work) {
+  const url = new URL(location.href);
+  url.searchParams.set("work", work.id);
+  url.searchParams.delete("viewer");
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
+function getHistoryState() {
+  return history.state && typeof history.state === "object" ? history.state : {};
+}
+
+function updateMusicWorkUrl(work, mode = "replace", markViewerEntry = false) {
+  if (!isShareableMusicWork(work)) {
+    return;
+  }
+
+  const state = { ...getHistoryState() };
+
+  if (markViewerEntry) {
+    state[musicViewerHistoryKey] = true;
+  }
+
+  const method = mode === "push" ? "pushState" : "replaceState";
+  history[method](state, "", buildMusicWorkPath(work));
+}
+
+function clearMusicWorkUrl() {
+  const url = new URL(location.href);
+  const state = { ...getHistoryState() };
+  url.searchParams.delete("work");
+  url.searchParams.delete("viewer");
+  delete state[musicViewerHistoryKey];
+  history.replaceState(state, "", `${url.pathname}${url.search}${url.hash}`);
+}
+
+function isPlainPrimaryActivation(event) {
+  return event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
 }
 
 function isOneDayDtmCollection(work) {
@@ -164,8 +208,9 @@ function createWorkCover(work) {
 
 function createWorkCard(work, list, index) {
   const shouldOpenVideo = isVideoWork(work);
+  const hasMusicPermalink = isShareableMusicWork(work);
   const opensExternal = Boolean(work.openExternal && work.url);
-  const tagName = opensExternal || (!work.collection && work.url && !shouldOpenVideo)
+  const tagName = opensExternal || hasMusicPermalink || (!work.collection && work.url && !shouldOpenVideo)
     ? "a"
     : work.collection || shouldOpenVideo
       ? "button"
@@ -204,8 +249,20 @@ function createWorkCard(work, list, index) {
       openCollection(work);
     });
   } else if (shouldOpenVideo) {
-    wrapper.type = "button";
-    wrapper.addEventListener("click", () => openVideoViewer(list, index));
+    if (hasMusicPermalink) {
+      wrapper.href = buildMusicWorkPath(work);
+      wrapper.addEventListener("click", (event) => {
+        if (!isPlainPrimaryActivation(event)) {
+          return;
+        }
+
+        event.preventDefault();
+        openVideoViewer(list, index, { historyMode: "push" });
+      });
+    } else {
+      wrapper.type = "button";
+      wrapper.addEventListener("click", () => openVideoViewer(list, index));
+    }
   } else if (work.url) {
     wrapper.href = work.url;
     wrapper.target = "_blank";
@@ -652,13 +709,22 @@ function openVideoViewer(list, index, options = {}) {
     return;
   }
 
+  const nextIndex = Math.min(index, list.length - 1);
+  const work = list[nextIndex];
   activeVideoContext = {
     list,
-    index: Math.min(index, list.length - 1),
+    index: nextIndex,
     hasJumps: Boolean(options.hasJumps),
     rememberOneDayDtm: Boolean(options.rememberOneDayDtm),
+    syncMusicUrl: isShareableMusicWork(work),
     wrap: Boolean(options.wrap),
   };
+
+  if (activeVideoContext.syncMusicUrl && options.historyMode !== "none") {
+    const historyMode = options.historyMode === "push" ? "push" : "replace";
+    updateMusicWorkUrl(work, historyMode, historyMode === "push");
+  }
+
   const elements = ensureVideoViewer();
   renderVideoViewer();
   elements.viewer.classList.add("is-open");
@@ -683,6 +749,9 @@ function moveVideoViewer(direction) {
   }
 
   activeVideoContext = { ...activeVideoContext, index: nextIndex };
+  if (activeVideoContext.syncMusicUrl) {
+    updateMusicWorkUrl(list[nextIndex]);
+  }
   renderVideoViewer();
 }
 
@@ -701,8 +770,10 @@ function jumpVideoViewer(target) {
   renderVideoViewer();
 }
 
-function closeVideoViewer() {
+function closeVideoViewer(options = {}) {
   const elements = ensureVideoViewer();
+  const shouldSyncUrl = options.syncUrl !== false && Boolean(activeVideoContext?.syncMusicUrl);
+  const shouldReturnToPreviousEntry = shouldSyncUrl && Boolean(getHistoryState()[musicViewerHistoryKey]);
 
   clearVideoStopTimer();
   activeYouTubePlayer?.destroy?.();
@@ -712,22 +783,57 @@ function closeVideoViewer() {
   elements.viewer.classList.remove("is-open");
   elements.viewer.setAttribute("aria-hidden", "true");
   document.body.classList.remove("is-modal-open");
+
+  if (shouldReturnToPreviousEntry) {
+    history.back();
+  } else if (shouldSyncUrl) {
+    clearMusicWorkUrl();
+  }
 }
 
-function openInitialViewerFromQuery() {
-  const viewerTitle = new URLSearchParams(location.search).get("viewer");
+function findVideoWork(predicate) {
+  for (const list of videoLists) {
+    const index = list.findIndex(predicate);
 
-  if (!viewerTitle) {
+    if (index >= 0) {
+      return { index, list, work: list[index] };
+    }
+  }
+
+  return null;
+}
+
+function openViewerFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const workId = params.get("work");
+  const legacyTitle = params.get("viewer");
+  let match = workId ? findVideoWork((work) => work.id === workId) : null;
+  let usedLegacyTitle = false;
+
+  if (!match && legacyTitle) {
+    match = findVideoWork((work) => work.title === legacyTitle);
+    usedLegacyTitle = Boolean(match);
+  }
+
+  if (!match) {
+    return false;
+  }
+
+  if (usedLegacyTitle && isShareableMusicWork(match.work)) {
+    updateMusicWorkUrl(match.work);
+  }
+
+  openVideoViewer(match.list, match.index, { historyMode: "none" });
+  return true;
+}
+
+function syncVideoViewerFromUrl() {
+  if (openViewerFromUrl()) {
     return;
   }
 
-  for (const list of videoLists) {
-    const index = list.findIndex((work) => work.title === viewerTitle);
-
-    if (index >= 0) {
-      openVideoViewer(list, index);
-      return;
-    }
+  if (activeVideoContext?.syncMusicUrl) {
+    closeVideoViewer({ syncUrl: false });
   }
 }
 
@@ -810,7 +916,9 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
+window.addEventListener("popstate", syncVideoViewerFromUrl);
+
 renderWorks('[data-works-list="caffeina"]', worksData.caffeina);
 renderWorks('[data-works-list="peristeronica-music"]', worksData.peristeronica.music);
 renderWorks('[data-works-list="peristeronica-other"]', worksData.peristeronica.other);
-openInitialViewerFromQuery();
+openViewerFromUrl();
