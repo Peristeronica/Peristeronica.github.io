@@ -1,5 +1,5 @@
 window.NICO_MYLIST_DATA = {
-  "updatedAt": "2026-10-23T21:16:31.532Z",
+  "updatedAt": "2026-10-24T04:13:47.582Z",
   "source": "https://nvapi.nicovideo.jp/v2/mylists/78998106",
   "totalCount": 64,
   "videos": [
