@@ -28,6 +28,7 @@ const typeLabels = {
   "1day_DTM": "1dayDTM",
   Illust: "Illust",
   Novel: "Novel",
+  Movie: "Movie",
   "1day_Movie": "1dayMovie",
 };
 
@@ -68,11 +69,11 @@ function typeClass(type) {
 }
 
 function isVideoWork(work) {
-  return work.type === "Music" && Boolean(work.url);
+  return (work.type === "Music" || work.type === "Movie") && Boolean(work.url);
 }
 
 function isShareableMusicWork(work) {
-  return isVideoWork(work) && typeof work.id === "string" && work.id.length > 0;
+  return work.type === "Music" && isVideoWork(work) && typeof work.id === "string" && work.id.length > 0;
 }
 
 function buildMusicWorkPath(work) {
